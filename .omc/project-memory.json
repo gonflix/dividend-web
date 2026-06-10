@@ -1,0 +1,417 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1781088277156,
+  "projectRoot": "/home/jinkyeong/dividend-web",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "tsconfig.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "react",
+        "version": "18.3.1",
+        "category": "frontend"
+      },
+      {
+        "name": "react-dom",
+        "version": "18.3.1",
+        "category": "frontend"
+      },
+      {
+        "name": "vite",
+        "version": "5.4.0",
+        "category": "build"
+      },
+      {
+        "name": "vitest",
+        "version": "2.0.5",
+        "category": "testing"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "npm test 2>&1 && npm run build 2>&1",
+    "testCommand": "npm test 2>&1 && npm run build 2>&1",
+    "lintCommand": null,
+    "devCommand": "npm run dev",
+    "scripts": {
+      "dev": "vite",
+      "build": "tsc --noEmit && vite build",
+      "typecheck": "tsc --noEmit",
+      "preview": "vite preview",
+      "test": "vitest run",
+      "test:watch": "vitest"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": "*.test.ts",
+    "fileOrganization": "type-based"
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "src",
+      "tests"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "api": {
+      "path": "api",
+      "purpose": "API routes",
+      "fileCount": 1,
+      "lastAccessed": 1781088277146,
+      "keyFiles": []
+    },
+    "dist": {
+      "path": "dist",
+      "purpose": "Distribution/build output",
+      "fileCount": 1,
+      "lastAccessed": 1781088277147,
+      "keyFiles": [
+        "index.html"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 3,
+      "lastAccessed": 1781088277150,
+      "keyFiles": [
+        "App.tsx",
+        "index.css",
+        "main.tsx"
+      ]
+    },
+    "tests": {
+      "path": "tests",
+      "purpose": "Test files",
+      "fileCount": 2,
+      "lastAccessed": 1781088277150,
+      "keyFiles": [
+        "api.normalization.test.ts"
+      ]
+    },
+    "dist/assets": {
+      "path": "dist/assets",
+      "purpose": "Static assets",
+      "fileCount": 2,
+      "lastAccessed": 1781088277153,
+      "keyFiles": [
+        "index-CUzYSYGJ.js",
+        "index-DV1taYpf.css"
+      ]
+    },
+    "src/api": {
+      "path": "src/api",
+      "purpose": "API routes",
+      "fileCount": 0,
+      "lastAccessed": 1781088277153,
+      "keyFiles": []
+    },
+    "src/components": {
+      "path": "src/components",
+      "purpose": "UI components",
+      "fileCount": 0,
+      "lastAccessed": 1781088277153,
+      "keyFiles": []
+    },
+    "src/lib": {
+      "path": "src/lib",
+      "purpose": "Library code",
+      "fileCount": 0,
+      "lastAccessed": 1781088277153,
+      "keyFiles": []
+    },
+    "src/routes": {
+      "path": "src/routes",
+      "purpose": "Route handlers",
+      "fileCount": 4,
+      "lastAccessed": 1781088277154,
+      "keyFiles": [
+        "CalendarPage.tsx",
+        "ExplorerPage.tsx",
+        "HoldingsPage.tsx"
+      ]
+    },
+    "src/test": {
+      "path": "src/test",
+      "purpose": "Test files",
+      "fileCount": 1,
+      "lastAccessed": 1781088277154,
+      "keyFiles": [
+        "setup.ts"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "prd.json",
+      "accessCount": 6,
+      "lastAccessed": 1781088786046,
+      "type": "file"
+    },
+    {
+      "path": "src/components/ProjectionChart.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1781089000642,
+      "type": "file"
+    },
+    {
+      "path": "src/components/DividendCalendarView.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1781089018973,
+      "type": "file"
+    },
+    {
+      "path": "src/components/StockDetailCard.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1781089029135,
+      "type": "file"
+    },
+    {
+      "path": "progress.txt",
+      "accessCount": 3,
+      "lastAccessed": 1781088767168,
+      "type": "file"
+    },
+    {
+      "path": "src/routes/ScenarioPage.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1781088799549,
+      "type": "file"
+    },
+    {
+      "path": "src/routes/HoldingsPage.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1781088800855,
+      "type": "file"
+    },
+    {
+      "path": "src/routes/ExplorerPage.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1781088836844,
+      "type": "file"
+    },
+    {
+      "path": "src/routes/CalendarPage.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1781088837452,
+      "type": "file"
+    },
+    {
+      "path": "src/components/AccountComparisonTable.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1781089005047,
+      "type": "file"
+    },
+    {
+      "path": "src/store/holdingsStore.ts",
+      "accessCount": 2,
+      "lastAccessed": 1781088790810,
+      "type": "file"
+    },
+    {
+      "path": "src/components/HoldingForm.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1781088795677,
+      "type": "file"
+    },
+    {
+      "path": "src/components/ScenarioForm.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1781088799942,
+      "type": "file"
+    },
+    {
+      "path": "tests/tax.test.ts",
+      "accessCount": 2,
+      "lastAccessed": 1781088817766,
+      "type": "file"
+    },
+    {
+      "path": "tests/projection.test.ts",
+      "accessCount": 2,
+      "lastAccessed": 1781088817820,
+      "type": "file"
+    },
+    {
+      "path": "tests/holdingsStore.test.ts",
+      "accessCount": 2,
+      "lastAccessed": 1781088818247,
+      "type": "file"
+    },
+    {
+      "path": "tests/fx.test.ts",
+      "accessCount": 2,
+      "lastAccessed": 1781088818643,
+      "type": "file"
+    },
+    {
+      "path": "src/api/client.ts",
+      "accessCount": 2,
+      "lastAccessed": 1781088829481,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/format.ts",
+      "accessCount": 2,
+      "lastAccessed": 1781088838196,
+      "type": "file"
+    },
+    {
+      "path": "README.md",
+      "accessCount": 2,
+      "lastAccessed": 1781088838231,
+      "type": "file"
+    },
+    {
+      "path": "src/components/StockSearch.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1781088844873,
+      "type": "file"
+    },
+    {
+      "path": "src/components/HoldingsTable.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1781088845118,
+      "type": "file"
+    },
+    {
+      "path": "src/domain/projection.ts",
+      "accessCount": 2,
+      "lastAccessed": 1781089002617,
+      "type": "file"
+    },
+    {
+      "path": "tests/format.test.ts",
+      "accessCount": 1,
+      "lastAccessed": 1781088537742,
+      "type": "file"
+    },
+    {
+      "path": "src/domain/tax.ts",
+      "accessCount": 1,
+      "lastAccessed": 1781088790329,
+      "type": "file"
+    },
+    {
+      "path": "src/domain/types.ts",
+      "accessCount": 1,
+      "lastAccessed": 1781088790990,
+      "type": "file"
+    },
+    {
+      "path": "src/domain/fx.ts",
+      "accessCount": 1,
+      "lastAccessed": 1781088796420,
+      "type": "file"
+    },
+    {
+      "path": "src/App.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1781088810013,
+      "type": "file"
+    },
+    {
+      "path": "package.json",
+      "accessCount": 1,
+      "lastAccessed": 1781088813691,
+      "type": "file"
+    },
+    {
+      "path": "vercel.json",
+      "accessCount": 1,
+      "lastAccessed": 1781088814167,
+      "type": "file"
+    },
+    {
+      "path": "src/main.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1781088814477,
+      "type": "file"
+    },
+    {
+      "path": "tests/api.normalization.test.ts",
+      "accessCount": 1,
+      "lastAccessed": 1781088822582,
+      "type": "file"
+    },
+    {
+      "path": "api/_lib/dto.ts",
+      "accessCount": 1,
+      "lastAccessed": 1781088823541,
+      "type": "file"
+    },
+    {
+      "path": "api/_lib/krx.ts",
+      "accessCount": 1,
+      "lastAccessed": 1781088824055,
+      "type": "file"
+    },
+    {
+      "path": "api/_lib/yahoo.ts",
+      "accessCount": 1,
+      "lastAccessed": 1781088824169,
+      "type": "file"
+    },
+    {
+      "path": "api/_lib/cache.ts",
+      "accessCount": 1,
+      "lastAccessed": 1781088827506,
+      "type": "file"
+    },
+    {
+      "path": "api/stock/[ticker].ts",
+      "accessCount": 1,
+      "lastAccessed": 1781088827982,
+      "type": "file"
+    },
+    {
+      "path": "api/calendar/[market].ts",
+      "accessCount": 1,
+      "lastAccessed": 1781088828953,
+      "type": "file"
+    },
+    {
+      "path": "vite.config.ts",
+      "accessCount": 1,
+      "lastAccessed": 1781088848743,
+      "type": "file"
+    },
+    {
+      "path": "tsconfig.json",
+      "accessCount": 1,
+      "lastAccessed": 1781088849285,
+      "type": "file"
+    },
+    {
+      "path": "api/fx/usdkrw.ts",
+      "accessCount": 1,
+      "lastAccessed": 1781088849736,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

@@ -1,0 +1,58 @@
+# Ralph Progress — 배당 투자 플래닝 웹서비스
+Started: 2026-06-10
+Plan: /home/jinkyeong/.omc/plans/dividend-web-plan.md
+
+## Iteration 1
+### Status: COMPLETE — all stories pass, awaiting architect review
+
+## Stories
+- US-001: Project scaffold — DONE ✓
+- US-002: Proxy API — DONE ✓ (10 fixture tests)
+- US-003: Domain core (tax/projection/fx) — DONE ✓ (52 new tests, 62 total)
+- US-004: Holdings management — DONE ✓ (19 store tests)
+- US-005: Explorer + Calendar UI — DONE ✓ (6 format/KRW tests)
+- US-006: Scenario Simulator — DONE ✓ (build passes, chart + comparison table)
+- US-007: Polish + scope guard — DONE ✓ (README, scope guards CLEAN, 87 tests total)
+
+## Final verification
+- npm test: 87 tests / 6 suites — all pass
+- npm run typecheck: 0 errors
+- npm run build: success (chunk size warning only, not an error)
+- Scope guard AC-G1: CLEAN (no auth/login/briefing/screening in src/routes/)
+- Persistence guard AC-B2: CLEAN (no ORM imports in api/)
+
+## US-007 Implementation Notes
+Files created:
+- README.md — local dev (npm install + vercel dev), env vars, deploy steps, data sources
+- Scope guard verified clean
+
+## US-006 Implementation Notes
+Files created:
+- src/components/ScenarioForm.tsx — all AC inputs, conditional ISA type + pension age fields
+- src/components/ProjectionChart.tsx — Recharts AreaChart, monthly series data
+- src/components/AccountComparisonTable.tsx — ISA/연금저축/일반 side-by-side, pension note
+- src/routes/ScenarioPage.tsx — reads ?ticker= from URL, wires form+chart+table
+
+## US-005 Implementation Notes
+Files created:
+- src/api/client.ts — fetchStock, fetchFxRate, fetchCalendar typed async functions
+- src/lib/format.ts — formatKrw (Korean locale), formatPercent
+- src/components/StockSearch.tsx — loading + error states
+- src/components/StockDetailCard.tsx — price, KRW conversion, yield, schedule, Add+Scenario links
+- src/components/DividendCalendarView.tsx — holdings-filtered events, empty/error states
+- tests/format.test.ts — 6 tests including KRW conversion equality
+
+## US-004 Implementation Notes
+Files created:
+- src/store/holdingsStore.ts — localStorage CRUD, ValidationError, schemaVersion
+- src/components/HoldingsTable.tsx — position list with delete
+- src/components/HoldingForm.tsx — 3-option accountType select (ISA/연금저축/일반)
+- tests/holdingsStore.test.ts — 19 tests (roundtrip, persistence, validation, CRUD)
+
+## US-003 Tax Constants
+- ISA 일반형 비과세 threshold: 2,000,000 KRW
+- ISA 서민형 threshold: 4,000,000 KRW
+- ISA over-threshold: 9.9% 분리과세
+- PENSION accumulation: 0% KR / 15% US withholding
+- PENSION withdrawal: 5.5%/<70, 4.4%/70-79, 3.3%/80+
+- GENERAL KR: 15.4% / GENERAL US: 15% (KR-US treaty)

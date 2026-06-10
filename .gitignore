@@ -1,0 +1,28 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+dist-ssr
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor & OS
+.DS_Store
+*.local
+.vscode/*
+!.vscode/extensions.json
+
+# Test coverage
+coverage
+
+# OMC tool state
+.omc/state
+.omc/sessions
