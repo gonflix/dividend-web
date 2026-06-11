@@ -47,7 +47,7 @@
     "runtime": null
   },
   "build": {
-    "buildCommand": "npm run build 2>&1 | tail -20",
+    "buildCommand": "npx tsc --noEmit 2>&1",
     "testCommand": "npm test",
     "lintCommand": null,
     "devCommand": "npm run dev",
@@ -222,20 +222,26 @@
     },
     {
       "path": "src/components/DividendCalendarView.tsx",
+      "accessCount": 8,
+      "lastAccessed": 1781178499665,
+      "type": "file"
+    },
+    {
+      "path": "api/_lib/yahoo.ts",
       "accessCount": 7,
-      "lastAccessed": 1781176692829,
+      "lastAccessed": 1781178440583,
+      "type": "file"
+    },
+    {
+      "path": "src/api/client.ts",
+      "accessCount": 7,
+      "lastAccessed": 1781178483081,
       "type": "file"
     },
     {
       "path": "src/lib/format.ts",
       "accessCount": 6,
       "lastAccessed": 1781168489922,
-      "type": "file"
-    },
-    {
-      "path": "api/_lib/yahoo.ts",
-      "accessCount": 6,
-      "lastAccessed": 1781169790946,
       "type": "file"
     },
     {
@@ -272,12 +278,6 @@
       "path": "src/components/ScenarioResultsTable.tsx",
       "accessCount": 5,
       "lastAccessed": 1781173682972,
-      "type": "file"
-    },
-    {
-      "path": "src/api/client.ts",
-      "accessCount": 5,
-      "lastAccessed": 1781174584770,
       "type": "file"
     },
     {
@@ -347,6 +347,12 @@
       "type": "file"
     },
     {
+      "path": "api/calendar/[market].ts",
+      "accessCount": 3,
+      "lastAccessed": 1781178421535,
+      "type": "file"
+    },
+    {
       "path": "src/components/HoldingForm.tsx",
       "accessCount": 2,
       "lastAccessed": 1781088795677,
@@ -404,12 +410,6 @@
       "path": "tsconfig.json",
       "accessCount": 2,
       "lastAccessed": 1781174580076,
-      "type": "file"
-    },
-    {
-      "path": "api/calendar/[market].ts",
-      "accessCount": 2,
-      "lastAccessed": 1781174747061,
       "type": "file"
     },
     {

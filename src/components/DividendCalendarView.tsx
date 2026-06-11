@@ -75,15 +75,13 @@ export default function DividendCalendarView() {
     if (held.length === 0) { setLoading(false); return }
 
     const heldTickers = [...new Set(held.map(h => h.ticker))]
-    const markets = [...new Set(held.map(h => h.market))] as ('KR' | 'US')[]
 
     Promise.all([
-      Promise.all(markets.map(m => fetchCalendar(m).catch(() => [] as DividendEvent[]))),
+      Promise.all(held.map(h => fetchCalendar(h.ticker, h.market).catch(() => [] as DividendEvent[]))),
       fetchFxRate().catch(() => ({ usdkrw: 1300, asOf: '' })),
       Promise.all(heldTickers.map(t => fetchStock(t).catch(() => null))),
     ]).then(([calResults, fx, quotes]) => {
-      const tickerSet = new Set(heldTickers)
-      setEvents(calResults.flat().filter(ev => tickerSet.has(ev.ticker)))
+      setEvents(calResults.flat())
       setFxRate(fx.usdkrw)
       const names: Record<string, string> = {}
       quotes.forEach(q => { if (q) names[q.ticker] = q.name })

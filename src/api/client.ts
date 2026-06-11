@@ -16,6 +16,6 @@ export function fetchFxRate(): Promise<FxRate> {
   return apiFetch<FxRate>('/api/fx/usdkrw')
 }
 
-export function fetchCalendar(market: 'KR' | 'US'): Promise<DividendEvent[]> {
-  return apiFetch<DividendEvent[]>(`/api/calendar/${market}`)
+export function fetchCalendar(ticker: string, market: 'KR' | 'US'): Promise<DividendEvent[]> {
+  return apiFetch<DividendEvent[]>(`/api/calendar/${market}?ticker=${encodeURIComponent(ticker)}`)
 }
