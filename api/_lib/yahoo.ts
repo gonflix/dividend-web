@@ -9,7 +9,7 @@ const HEADERS = { 'User-Agent': 'Mozilla/5.0 (compatible; dividend-web/1.0)' }
 
 export async function fetchStockQuote(ticker: string): Promise<StockQuote> {
   const enc = encodeURIComponent(ticker)
-  const url = `${BASE}/v8/finance/chart/${enc}?interval=1d&range=1d&events=dividends`
+  const url = `${BASE}/v8/finance/chart/${enc}?interval=1d&range=2y&events=dividends`
   const resp = await fetch(url, { headers: HEADERS })
   if (!resp.ok) throw new Error(`Yahoo chart ${resp.status} for ${ticker}`)
   const data = await resp.json()

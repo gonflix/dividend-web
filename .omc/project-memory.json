@@ -287,6 +287,12 @@
       "type": "file"
     },
     {
+      "path": "api/_lib/yahoo.ts",
+      "accessCount": 3,
+      "lastAccessed": 1781162978199,
+      "type": "file"
+    },
+    {
       "path": "src/components/HoldingForm.tsx",
       "accessCount": 2,
       "lastAccessed": 1781088795677,
@@ -380,12 +386,6 @@
       "path": "api/_lib/krx.ts",
       "accessCount": 1,
       "lastAccessed": 1781088824055,
-      "type": "file"
-    },
-    {
-      "path": "api/_lib/yahoo.ts",
-      "accessCount": 1,
-      "lastAccessed": 1781088824169,
       "type": "file"
     },
     {
