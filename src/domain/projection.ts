@@ -113,3 +113,80 @@ export function project(input: ProjectInput): ProjectResult {
 
   return { series, headlineTotal, preTaxTotal }
 }
+
+// ---------------------------------------------------------------------------
+// Share-based year-by-year stock projection
+// ---------------------------------------------------------------------------
+
+export interface StockProjectionInput {
+  initialShares: number
+  currentPrice: number
+  annualDps: number       // estimated annual DPS in native currency
+  dividendCagr: number    // historical DPS CAGR (used as base growth rate)
+  model: ProjectionModel
+  monthlyDca: number      // in stock's native currency
+  years: number
+  market: Market
+  accountType: AccountType
+  isaType?: IsaType
+  ageAtWithdrawal?: number
+}
+
+export interface StockYearData {
+  year: number
+  cumulativeShares: number
+  cumulativeGrossDividend: number  // native currency
+  cumulativeNetDividend: number    // native currency
+}
+
+export function projectStock(input: StockProjectionInput): StockYearData[] {
+  const {
+    initialShares, currentPrice, annualDps, dividendCagr,
+    model, monthlyDca, years, market, accountType,
+    isaType = 'GENERAL_TYPE', ageAtWithdrawal = 55,
+  } = input
+
+  const growthRate = model === 'optimistic'
+    ? Math.max(0, dividendCagr) + 0.02
+    : model === 'pessimistic'
+    ? 0
+    : Math.max(0, dividendCagr)
+
+  const sharesPerMonth = currentPrice > 0 ? monthlyDca / currentPrice : 0
+  const result: StockYearData[] = []
+
+  let shares = initialShares
+  let cumGross = 0
+  let cumNet = 0
+  let isaProfitToDate = 0
+
+  for (let m = 0; m < years * 12; m++) {
+    shares += sharesPerMonth
+    const yearIndex = Math.floor(m / 12)
+    const monthlyDps = (annualDps * Math.pow(1 + growthRate, yearIndex)) / 12
+    const gross = shares * monthlyDps
+
+    const tax = dividendTax({ gross, market, accountType, isaType, ageAtWithdrawal, isaProfitToDate })
+    if (accountType === 'ISA') isaProfitToDate += gross
+
+    cumGross += gross
+    cumNet += gross - tax
+
+    if ((m + 1) % 12 === 0) {
+      result.push({
+        year: (m + 1) / 12,
+        cumulativeShares: shares,
+        cumulativeGrossDividend: cumGross,
+        cumulativeNetDividend: cumNet,
+      })
+    }
+  }
+
+  // PENSION: deduct withdrawal tax from the final year cumulative net
+  if (accountType === 'PENSION' && result.length > 0) {
+    const last = result[result.length - 1]
+    last.cumulativeNetDividend -= pensionWithdrawalTax(last.cumulativeNetDividend, ageAtWithdrawal)
+  }
+
+  return result
+}

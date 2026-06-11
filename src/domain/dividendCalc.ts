@@ -72,3 +72,26 @@ export function calcDividendEstimates(
 
   return { annualDps, thisMonthDps }
 }
+
+export function calcDividendGrowthCagr(
+  events: DividendEvent[],
+  today: string,
+): number {
+  const paid = [...events]
+    .filter(ev => effectiveDate(ev) <= today)
+    .sort((a, b) => effectiveDate(b).localeCompare(effectiveDate(a)))
+
+  if (paid.length === 0) return 0
+
+  const latest = paid[0]
+  const latestDps = latest.dps
+  const latestDateStr = effectiveDate(latest)
+
+  const fiveYearsAgoYear = parseInt(latestDateStr.slice(0, 4)) - 5
+  const targetPrefix = `${fiveYearsAgoYear}-${latestDateStr.slice(5, 7)}`
+
+  const fiveYearAgo = events.find(ev => effectiveDate(ev).startsWith(targetPrefix))
+  if (!fiveYearAgo || fiveYearAgo.dps <= 0 || latestDps <= 0) return 0
+
+  return Math.pow(latestDps / fiveYearAgo.dps, 1 / 5) - 1
+}

@@ -192,8 +192,14 @@
     },
     {
       "path": "src/routes/HoldingsPage.tsx",
+      "accessCount": 7,
+      "lastAccessed": 1781168490140,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/format.ts",
       "accessCount": 6,
-      "lastAccessed": 1781157022247,
+      "lastAccessed": 1781168489922,
       "type": "file"
     },
     {
@@ -209,15 +215,15 @@
       "type": "file"
     },
     {
-      "path": "src/lib/format.ts",
+      "path": "src/components/ProjectionChart.tsx",
       "accessCount": 5,
-      "lastAccessed": 1781157101295,
+      "lastAccessed": 1781168255305,
       "type": "file"
     },
     {
-      "path": "src/components/ProjectionChart.tsx",
-      "accessCount": 4,
-      "lastAccessed": 1781089000642,
+      "path": "src/routes/ScenarioPage.tsx",
+      "accessCount": 5,
+      "lastAccessed": 1781168729771,
       "type": "file"
     },
     {
@@ -257,9 +263,27 @@
       "type": "file"
     },
     {
-      "path": "src/routes/ScenarioPage.tsx",
-      "accessCount": 3,
-      "lastAccessed": 1781088799549,
+      "path": "src/store/holdingsStore.ts",
+      "accessCount": 4,
+      "lastAccessed": 1781168254846,
+      "type": "file"
+    },
+    {
+      "path": "src/components/AccountComparisonTable.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1781168255576,
+      "type": "file"
+    },
+    {
+      "path": "src/domain/dividendCalc.ts",
+      "accessCount": 4,
+      "lastAccessed": 1781168637030,
+      "type": "file"
+    },
+    {
+      "path": "src/domain/projection.ts",
+      "accessCount": 4,
+      "lastAccessed": 1781168654129,
       "type": "file"
     },
     {
@@ -269,21 +293,9 @@
       "type": "file"
     },
     {
-      "path": "src/components/AccountComparisonTable.tsx",
-      "accessCount": 3,
-      "lastAccessed": 1781089005047,
-      "type": "file"
-    },
-    {
       "path": "src/components/StockSearch.tsx",
       "accessCount": 3,
       "lastAccessed": 1781156332453,
-      "type": "file"
-    },
-    {
-      "path": "src/store/holdingsStore.ts",
-      "accessCount": 3,
-      "lastAccessed": 1781156779797,
       "type": "file"
     },
     {
@@ -293,21 +305,21 @@
       "type": "file"
     },
     {
-      "path": "src/domain/dividendCalc.ts",
+      "path": "src/components/ScenarioForm.tsx",
       "accessCount": 3,
-      "lastAccessed": 1781164114443,
+      "lastAccessed": 1781168252568,
+      "type": "file"
+    },
+    {
+      "path": "src/domain/types.ts",
+      "accessCount": 3,
+      "lastAccessed": 1781168254000,
       "type": "file"
     },
     {
       "path": "src/components/HoldingForm.tsx",
       "accessCount": 2,
       "lastAccessed": 1781088795677,
-      "type": "file"
-    },
-    {
-      "path": "src/components/ScenarioForm.tsx",
-      "accessCount": 2,
-      "lastAccessed": 1781088799942,
       "type": "file"
     },
     {
@@ -341,27 +353,15 @@
       "type": "file"
     },
     {
-      "path": "src/domain/projection.ts",
+      "path": "src/domain/tax.ts",
       "accessCount": 2,
-      "lastAccessed": 1781089002617,
-      "type": "file"
-    },
-    {
-      "path": "src/domain/types.ts",
-      "accessCount": 2,
-      "lastAccessed": 1781156778871,
+      "lastAccessed": 1781168253945,
       "type": "file"
     },
     {
       "path": "tests/format.test.ts",
       "accessCount": 1,
       "lastAccessed": 1781088537742,
-      "type": "file"
-    },
-    {
-      "path": "src/domain/tax.ts",
-      "accessCount": 1,
-      "lastAccessed": 1781088790329,
       "type": "file"
     },
     {
@@ -428,6 +428,18 @@
       "path": "api/fx/usdkrw.ts",
       "accessCount": 1,
       "lastAccessed": 1781088849736,
+      "type": "file"
+    },
+    {
+      "path": "src/components/ScenarioChart.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1781168666469,
+      "type": "file"
+    },
+    {
+      "path": "src/components/ScenarioResultsTable.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1781168683531,
       "type": "file"
     }
   ],
