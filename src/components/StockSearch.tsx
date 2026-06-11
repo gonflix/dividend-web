@@ -32,7 +32,7 @@ export default function StockSearch({ onResult }: Props) {
       <input
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        placeholder="티커 입력 (예: AAPL, 005930)"
+        placeholder="티커 입력 (예: AAPL, 005930.KS)"
         disabled={loading}
         className="w-72 px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white"
       />
