@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1781088277156,
+  "lastScanned": 1781175284026,
   "projectRoot": "/home/jinkyeong/dividend-web",
   "techStack": {
     "languages": [
@@ -47,8 +47,8 @@
     "runtime": null
   },
   "build": {
-    "buildCommand": "npm run build 2>&1",
-    "testCommand": "npm run typecheck 2>&1 && npm test 2>&1",
+    "buildCommand": "npm run build 2>&1 | tail -20",
+    "testCommand": "npm test",
     "lintCommand": null,
     "devCommand": "npm run dev",
     "scripts": {
@@ -81,14 +81,14 @@
       "path": "api",
       "purpose": "API routes",
       "fileCount": 1,
-      "lastAccessed": 1781088277146,
+      "lastAccessed": 1781175284017,
       "keyFiles": []
     },
     "dist": {
       "path": "dist",
       "purpose": "Distribution/build output",
       "fileCount": 1,
-      "lastAccessed": 1781088277147,
+      "lastAccessed": 1781175284018,
       "keyFiles": [
         "index.html"
       ]
@@ -97,7 +97,7 @@
       "path": "src",
       "purpose": "Source code",
       "fileCount": 3,
-      "lastAccessed": 1781088277150,
+      "lastAccessed": 1781175284020,
       "keyFiles": [
         "App.tsx",
         "index.css",
@@ -107,59 +107,71 @@
     "tests": {
       "path": "tests",
       "purpose": "Test files",
-      "fileCount": 2,
-      "lastAccessed": 1781088277150,
+      "fileCount": 7,
+      "lastAccessed": 1781175284021,
       "keyFiles": [
-        "api.normalization.test.ts"
+        "api.normalization.test.ts",
+        "format.test.ts",
+        "fx.test.ts",
+        "holdingsStore.test.ts",
+        "projection.test.ts"
       ]
     },
     "dist/assets": {
       "path": "dist/assets",
       "purpose": "Static assets",
       "fileCount": 2,
-      "lastAccessed": 1781088277153,
+      "lastAccessed": 1781175284022,
       "keyFiles": [
-        "index-CUzYSYGJ.js",
+        "index-BCzVP1Dz.js",
         "index-DV1taYpf.css"
       ]
     },
     "src/api": {
       "path": "src/api",
       "purpose": "API routes",
-      "fileCount": 0,
-      "lastAccessed": 1781088277153,
-      "keyFiles": []
+      "fileCount": 1,
+      "lastAccessed": 1781175284023,
+      "keyFiles": [
+        "client.ts"
+      ]
     },
     "src/components": {
       "path": "src/components",
       "purpose": "UI components",
-      "fileCount": 0,
-      "lastAccessed": 1781088277153,
-      "keyFiles": []
+      "fileCount": 12,
+      "lastAccessed": 1781175284023,
+      "keyFiles": [
+        "AccountComparisonTable.tsx",
+        "AddHoldingModal.tsx",
+        "AppHeader.tsx"
+      ]
     },
     "src/lib": {
       "path": "src/lib",
       "purpose": "Library code",
-      "fileCount": 0,
-      "lastAccessed": 1781088277153,
-      "keyFiles": []
+      "fileCount": 1,
+      "lastAccessed": 1781175284023,
+      "keyFiles": [
+        "format.ts"
+      ]
     },
     "src/routes": {
       "path": "src/routes",
       "purpose": "Route handlers",
-      "fileCount": 4,
-      "lastAccessed": 1781088277154,
+      "fileCount": 3,
+      "lastAccessed": 1781175284023,
       "keyFiles": [
         "CalendarPage.tsx",
-        "ExplorerPage.tsx",
-        "HoldingsPage.tsx"
+        "HoldingsPage.tsx",
+        "ScenarioPage.tsx"
       ]
     },
     "src/test": {
       "path": "src/test",
       "purpose": "Test files",
       "fileCount": 1,
-      "lastAccessed": 1781088277154,
+      "lastAccessed": 1781175284024,
       "keyFiles": [
         "setup.ts"
       ]
@@ -197,15 +209,21 @@
       "type": "file"
     },
     {
-      "path": "src/routes/HoldingsPage.tsx",
-      "accessCount": 7,
-      "lastAccessed": 1781168490140,
+      "path": "src/App.tsx",
+      "accessCount": 8,
+      "lastAccessed": 1781174582620,
       "type": "file"
     },
     {
-      "path": "src/App.tsx",
+      "path": "src/routes/HoldingsPage.tsx",
+      "accessCount": 8,
+      "lastAccessed": 1781174589543,
+      "type": "file"
+    },
+    {
+      "path": "src/components/DividendCalendarView.tsx",
       "accessCount": 7,
-      "lastAccessed": 1781174199325,
+      "lastAccessed": 1781176692829,
       "type": "file"
     },
     {
@@ -227,6 +245,18 @@
       "type": "file"
     },
     {
+      "path": "src/store/holdingsStore.ts",
+      "accessCount": 6,
+      "lastAccessed": 1781176377409,
+      "type": "file"
+    },
+    {
+      "path": "src/routes/CalendarPage.tsx",
+      "accessCount": 6,
+      "lastAccessed": 1781176702161,
+      "type": "file"
+    },
+    {
       "path": "progress.txt",
       "accessCount": 5,
       "lastAccessed": 1781156738730,
@@ -245,9 +275,21 @@
       "type": "file"
     },
     {
-      "path": "src/components/DividendCalendarView.tsx",
-      "accessCount": 4,
-      "lastAccessed": 1781089018973,
+      "path": "src/api/client.ts",
+      "accessCount": 5,
+      "lastAccessed": 1781174584770,
+      "type": "file"
+    },
+    {
+      "path": "api/_lib/dto.ts",
+      "accessCount": 5,
+      "lastAccessed": 1781174589332,
+      "type": "file"
+    },
+    {
+      "path": "src/domain/dividendCalc.ts",
+      "accessCount": 5,
+      "lastAccessed": 1781176382482,
       "type": "file"
     },
     {
@@ -257,27 +299,9 @@
       "type": "file"
     },
     {
-      "path": "src/api/client.ts",
-      "accessCount": 4,
-      "lastAccessed": 1781160969703,
-      "type": "file"
-    },
-    {
-      "path": "api/_lib/dto.ts",
-      "accessCount": 4,
-      "lastAccessed": 1781160972114,
-      "type": "file"
-    },
-    {
       "path": "src/domain/fx.ts",
       "accessCount": 4,
       "lastAccessed": 1781161083723,
-      "type": "file"
-    },
-    {
-      "path": "src/store/holdingsStore.ts",
-      "accessCount": 4,
-      "lastAccessed": 1781168254846,
       "type": "file"
     },
     {
@@ -287,21 +311,15 @@
       "type": "file"
     },
     {
-      "path": "src/domain/dividendCalc.ts",
-      "accessCount": 4,
-      "lastAccessed": 1781168637030,
-      "type": "file"
-    },
-    {
       "path": "src/domain/projection.ts",
       "accessCount": 4,
       "lastAccessed": 1781168654129,
       "type": "file"
     },
     {
-      "path": "src/routes/CalendarPage.tsx",
-      "accessCount": 3,
-      "lastAccessed": 1781088837452,
+      "path": "src/domain/types.ts",
+      "accessCount": 4,
+      "lastAccessed": 1781174584716,
       "type": "file"
     },
     {
@@ -323,9 +341,9 @@
       "type": "file"
     },
     {
-      "path": "src/domain/types.ts",
+      "path": "README.md",
       "accessCount": 3,
-      "lastAccessed": 1781168254000,
+      "lastAccessed": 1781174591996,
       "type": "file"
     },
     {
@@ -359,12 +377,6 @@
       "type": "file"
     },
     {
-      "path": "README.md",
-      "accessCount": 2,
-      "lastAccessed": 1781088838231,
-      "type": "file"
-    },
-    {
       "path": "src/domain/tax.ts",
       "accessCount": 2,
       "lastAccessed": 1781168253945,
@@ -383,15 +395,27 @@
       "type": "file"
     },
     {
-      "path": "tests/format.test.ts",
-      "accessCount": 1,
-      "lastAccessed": 1781088537742,
+      "path": "package.json",
+      "accessCount": 2,
+      "lastAccessed": 1781174579835,
       "type": "file"
     },
     {
-      "path": "package.json",
+      "path": "tsconfig.json",
+      "accessCount": 2,
+      "lastAccessed": 1781174580076,
+      "type": "file"
+    },
+    {
+      "path": "api/calendar/[market].ts",
+      "accessCount": 2,
+      "lastAccessed": 1781174747061,
+      "type": "file"
+    },
+    {
+      "path": "tests/format.test.ts",
       "accessCount": 1,
-      "lastAccessed": 1781088813691,
+      "lastAccessed": 1781088537742,
       "type": "file"
     },
     {
@@ -425,21 +449,9 @@
       "type": "file"
     },
     {
-      "path": "api/calendar/[market].ts",
-      "accessCount": 1,
-      "lastAccessed": 1781088828953,
-      "type": "file"
-    },
-    {
       "path": "vite.config.ts",
       "accessCount": 1,
       "lastAccessed": 1781088848743,
-      "type": "file"
-    },
-    {
-      "path": "tsconfig.json",
-      "accessCount": 1,
-      "lastAccessed": 1781088849285,
       "type": "file"
     },
     {
