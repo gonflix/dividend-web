@@ -203,6 +203,12 @@
       "type": "file"
     },
     {
+      "path": "src/App.tsx",
+      "accessCount": 7,
+      "lastAccessed": 1781174199325,
+      "type": "file"
+    },
+    {
       "path": "src/lib/format.ts",
       "accessCount": 6,
       "lastAccessed": 1781168489922,
@@ -224,12 +230,6 @@
       "path": "progress.txt",
       "accessCount": 5,
       "lastAccessed": 1781156738730,
-      "type": "file"
-    },
-    {
-      "path": "src/App.tsx",
-      "accessCount": 5,
-      "lastAccessed": 1781157020148,
       "type": "file"
     },
     {
@@ -371,6 +371,18 @@
       "type": "file"
     },
     {
+      "path": "src/main.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1781174097475,
+      "type": "file"
+    },
+    {
+      "path": "src/index.css",
+      "accessCount": 2,
+      "lastAccessed": 1781174170310,
+      "type": "file"
+    },
+    {
       "path": "tests/format.test.ts",
       "accessCount": 1,
       "lastAccessed": 1781088537742,
@@ -386,12 +398,6 @@
       "path": "vercel.json",
       "accessCount": 1,
       "lastAccessed": 1781088814167,
-      "type": "file"
-    },
-    {
-      "path": "src/main.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1781088814477,
       "type": "file"
     },
     {
@@ -440,6 +446,24 @@
       "path": "api/fx/usdkrw.ts",
       "accessCount": 1,
       "lastAccessed": 1781088849736,
+      "type": "file"
+    },
+    {
+      "path": "tailwind.config.js",
+      "accessCount": 1,
+      "lastAccessed": 1781174163379,
+      "type": "file"
+    },
+    {
+      "path": "postcss.config.js",
+      "accessCount": 1,
+      "lastAccessed": 1781174163824,
+      "type": "file"
+    },
+    {
+      "path": "src/components/AppHeader.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1781174183090,
       "type": "file"
     }
   ],
