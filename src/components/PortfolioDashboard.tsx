@@ -2,6 +2,7 @@ import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts'
 import type { StockQuote } from '../api/client.js'
 import type { StoredPosition } from '../store/holdingsStore.js'
 import { usdToKrw } from '../domain/fx.js'
+import { calcDividendEstimates } from '../domain/dividendCalc.js'
 import { formatAmount, formatPercent } from '../lib/format.js'
 
 interface Props {
@@ -32,7 +33,9 @@ export default function PortfolioDashboard({ positions, priceData, fxRate, loadi
     )
   }
 
-  const currentYearMonth = new Date().toISOString().slice(0, 7)
+  const today = new Date().toISOString().slice(0, 10)
+  const currentYear = today.slice(0, 4)
+  const currentYearMonth = today.slice(0, 7)
 
   let totalValue = 0
   let totalAnnualDividend = 0
@@ -45,20 +48,21 @@ export default function PortfolioDashboard({ positions, priceData, fxRate, loadi
     const quote = priceData.get(pos.ticker)
     if (!quote) continue
 
+    const { annualDps, thisMonthDps } = calcDividendEstimates(
+      quote.dividendEvents, today, currentYear, currentYearMonth
+    )
+
     const marketValue = toDisplay(quote.price * pos.quantity, quote.currency, currency, fxRate)
-    const annualDiv = toDisplay(quote.annualDividendYield * quote.price * pos.quantity, quote.currency, currency, fxRate)
-    if (marketValue === null || annualDiv === null) continue
+    const annualDiv = toDisplay(annualDps * pos.quantity, quote.currency, currency, fxRate)
+    const thisMonthDiv = toDisplay(thisMonthDps * pos.quantity, quote.currency, currency, fxRate)
+    if (marketValue === null || annualDiv === null || thisMonthDiv === null) continue
 
     totalValue += marketValue
     totalAnnualDividend += annualDiv
-    weightedYieldNumerator += quote.annualDividendYield * marketValue
+    totalThisMonthDividend += thisMonthDiv
 
-    for (const ev of quote.dividendEvents) {
-      if (ev.paymentDate?.startsWith(currentYearMonth)) {
-        const divAmount = toDisplay(ev.dps * pos.quantity, ev.currency, currency, fxRate)
-        if (divAmount !== null) totalThisMonthDividend += divAmount
-      }
-    }
+    const estimatedYield = quote.price > 0 ? annualDps / quote.price : 0
+    weightedYieldNumerator += estimatedYield * marketValue
 
     pieData.push({ name: pos.ticker, value: marketValue })
   }

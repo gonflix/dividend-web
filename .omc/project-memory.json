@@ -168,14 +168,14 @@
   "hotPaths": [
     {
       "path": "src/components/PortfolioDashboard.tsx",
-      "accessCount": 10,
-      "lastAccessed": 1781157116588,
+      "accessCount": 13,
+      "lastAccessed": 1781161224314,
       "type": "file"
     },
     {
       "path": "src/components/HoldingsTable.tsx",
-      "accessCount": 10,
-      "lastAccessed": 1781157133048,
+      "accessCount": 13,
+      "lastAccessed": 1781161241987,
       "type": "file"
     },
     {
@@ -233,6 +233,24 @@
       "type": "file"
     },
     {
+      "path": "src/api/client.ts",
+      "accessCount": 4,
+      "lastAccessed": 1781160969703,
+      "type": "file"
+    },
+    {
+      "path": "api/_lib/dto.ts",
+      "accessCount": 4,
+      "lastAccessed": 1781160972114,
+      "type": "file"
+    },
+    {
+      "path": "src/domain/fx.ts",
+      "accessCount": 4,
+      "lastAccessed": 1781161083723,
+      "type": "file"
+    },
+    {
       "path": "src/routes/ScenarioPage.tsx",
       "accessCount": 3,
       "lastAccessed": 1781088799549,
@@ -257,27 +275,9 @@
       "type": "file"
     },
     {
-      "path": "src/api/client.ts",
-      "accessCount": 3,
-      "lastAccessed": 1781156779329,
-      "type": "file"
-    },
-    {
       "path": "src/store/holdingsStore.ts",
       "accessCount": 3,
       "lastAccessed": 1781156779797,
-      "type": "file"
-    },
-    {
-      "path": "api/_lib/dto.ts",
-      "accessCount": 3,
-      "lastAccessed": 1781156794996,
-      "type": "file"
-    },
-    {
-      "path": "src/domain/fx.ts",
-      "accessCount": 3,
-      "lastAccessed": 1781156979921,
       "type": "file"
     },
     {
@@ -422,6 +422,12 @@
       "path": "api/fx/usdkrw.ts",
       "accessCount": 1,
       "lastAccessed": 1781088849736,
+      "type": "file"
+    },
+    {
+      "path": "src/domain/dividendCalc.ts",
+      "accessCount": 1,
+      "lastAccessed": 1781161196683,
       "type": "file"
     }
   ],

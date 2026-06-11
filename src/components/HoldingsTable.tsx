@@ -2,6 +2,7 @@ import type { StockQuote } from '../api/client.js'
 import type { StoredPosition } from '../store/holdingsStore.js'
 import { deleteHolding } from '../store/holdingsStore.js'
 import { usdToKrw } from '../domain/fx.js'
+import { calcDividendEstimates } from '../domain/dividendCalc.js'
 import { formatAmount } from '../lib/format.js'
 
 const ACCOUNT_LABEL: Record<string, string> = {
@@ -36,6 +37,10 @@ export default function HoldingsTable({ positions, onRefresh, priceData, fxRate,
     onRefresh()
   }
 
+  const today = new Date().toISOString().slice(0, 10)
+  const currentYear = today.slice(0, 4)
+  const currentYearMonth = today.slice(0, 7)
+
   return (
     <table style={{ width: '100%', borderCollapse: 'collapse' }}>
       <thead>
@@ -56,7 +61,10 @@ export default function HoldingsTable({ positions, onRefresh, priceData, fxRate,
             ? toDisplay(quote.price * p.quantity, quote.currency, currency, fxRate)
             : null
           const annualDiv = quote
-            ? toDisplay(quote.annualDividendYield * quote.price * p.quantity, quote.currency, currency, fxRate)
+            ? toDisplay(
+                calcDividendEstimates(quote.dividendEvents, today, currentYear, currentYearMonth).annualDps * p.quantity,
+                quote.currency, currency, fxRate
+              )
             : null
 
           return (
