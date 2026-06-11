@@ -1,98 +1,80 @@
 # 배당 투자 플래닝 웹서비스
 
-국내/해외 주식·ETF의 배당 정보 조회, 포트폴리오 관리, 세후 DCA 시나리오 시뮬레이션을 제공하는 싱글페이지 앱입니다.
+국내/해외 주식·ETF의 배당 정보 조회, 포트폴리오 관리, 배당 캘린더, 세후 DCA 시나리오 시뮬레이션을 제공하는 싱글페이지 앱입니다.
 
-## 기능
+## 탭 구성
 
-| 페이지 | 설명 |
-|--------|------|
-| **종목 탐색** (`/explorer`) | 티커 검색 → 배당수익률·배당 일정 조회, 보유종목 추가 |
-| **배당 캘린더** (`/calendar`) | 보유 종목의 배당락일·지급일 달력 |
-| **보유종목 관리** (`/holdings`) | localStorage CRUD (계좌 종류 포함: ISA / 연금저축 / 일반) |
-| **시나리오 시뮬레이터** (`/scenario`) | DCA 적립 + 배당 재투자 세후 수익 시뮬레이션 + 3계좌 비교 |
-
----
-
-## 로컬 개발
-
-### 1. 의존성 설치
-
-```bash
-npm install
-```
-
-### 2. 환경 변수 설정
-
-프로젝트 루트에 `.env.local` 파일을 생성합니다.
-
-```env
-# Yahoo Finance API는 공개 엔드포인트를 사용합니다 (별도 키 불필요).
-# KRX 데이터는 data.krx.co.kr 공개 JSON API를 사용합니다 (별도 키 불필요).
-
-# (선택) 로컬 API 포트 — 기본값은 3000
-# VERCEL_DEV_PORT=3000
-```
-
-환경 변수가 없어도 기본값으로 동작합니다. Yahoo Finance와 KRX 엔드포인트는 모두 공개 API를 이용하며 별도 API 키가 필요하지 않습니다.
-
-### 3. 개발 서버 실행
-
-Vercel CLI가 필요합니다 (서버리스 `/api/*` 함수 로컬 실행).
-
-```bash
-# Vercel CLI 설치 (최초 1회)
-npm install -g vercel
-
-# 로컬 풀스택 개발 서버 (Vite + Vercel Functions)
-vercel dev
-```
-
-> `vercel dev` 없이 프론트엔드만 확인하려면:
-> ```bash
-> npm run dev
-> ```
-> `/api/*` 호출은 실패하지만 UI 탐색은 가능합니다.
-
-### 4. 테스트
-
-```bash
-npm test              # 전체 테스트 (87개)
-npm run typecheck     # TypeScript 타입 검사
-npm run build         # 프로덕션 빌드 확인
-```
+| 탭 | 경로 | 설명 |
+|----|------|------|
+| **보유종목** | `/holdings` | 티커 검색 + 포트폴리오 요약 + 보유 종목 목록 (추가·수정·삭제) |
+| **캘린더** | `/calendar` | 보유 종목의 배당락일·지급일 월간 그리드. 미래 일정은 과거 패턴으로 추정 표시 |
+| **시나리오** | `/scenario` | 종목별 DCA 적립 + 배당 재투자 세후 수익 시뮬레이션 |
 
 ---
 
-## Vercel 배포
+## 주요 기능
 
-### 1. 저장소를 Vercel에 연결
+### 보유종목 탭
+- 티커 검색 → 현재가·배당수익률·최근 배당 내역 카드 표시
+- 이미 보유 중인 종목은 추가 버튼 비활성화
+- 보유 종목 목록: 수량·계좌종류 인라인 수정, 종목명·연배당금 표시
+- 포트폴리오 파이차트 + 총 평가금액·연간 예상 배당금·이번달 배당금·가중평균 배당율
+- KRW/USD 통화 토글
 
-```bash
-vercel link
-```
+### 캘린더 탭
+- 월간 그리드 + 이전/다음 달 네비게이션
+- 종목별 고유 색상 도트: 배당락일(●실선) / 지급일(○테두리)
+- 미래 추정 이벤트는 반투명(opacity 45%) + "추정" 뱃지로 구분
+- 날짜 클릭 → 팝업: 종목명·날짜 구분·DPS×수량·세전/세후 금액
+- 하단 월별 요약 표: 배당락일·지급일 각각 별도 행
+- 세전/세후 토글, KRW/USD 토글
 
-또는 [Vercel 대시보드](https://vercel.com/new)에서 GitHub 저장소를 임포트합니다.
+### 시나리오 탭
+- 보유 종목 기반으로 자동 구성 (종목별 설정 가능)
+- 종목별 입력: 월 적립금액·화폐·계좌종류·수익률 모델(기본/낙관/보수)
+- 배당 CAGR = 최신 DPS ÷ 5년전 동월 DPS의 연간 복리 성장률
+- 결과: 연간 배당수익 스택 바 차트 + 누적 수량/배당 표
+- 세후 금액 토글
 
-### 2. 빌드 설정
+---
 
-`vercel.json`에 이미 설정되어 있습니다:
+## 배당 계산 방식
 
-```json
-{
-  "outputDirectory": "dist",
-  "rewrites": [{ "source": "/api/:path*", "destination": "/api/:path*" }]
-}
-```
+### 연배당 예상 (calcDividendEstimates)
 
-### 3. 배포
+| 구분 | 연배당 예상 | 이번달 배당 |
+|------|------------|------------|
+| **분기배당** | 올해 실지급 합산 + 남은 분기 수 × 직전 DPS | 3·6·9·12월만 해당 |
+| **월배당** | 올해 실지급 합산 + 남은 달 수 × 직전 DPS | 항상 해당 |
 
-```bash
-# 프리뷰 배포
-vercel
+- 월배당 판별: 최근 15개월 중 고유 지급 월이 8개 이상
+- `effectiveDate = paymentDate ?? exDate` (Yahoo Finance는 paymentDate를 null로 반환)
 
-# 프로덕션 배포
-vercel --prod
-```
+### 미래 캘린더 이벤트 추정
+
+마지막 이벤트 기준으로 동일 간격(월배당: 1개월, 분기배당: 3개월) 반복 프로젝션. exDate↔paymentDate 간격(일수)을 그대로 유지. 오늘 이후 약 13개월치 생성.
+
+### 세금 계산
+
+| 계좌 | KR 주식 | US 주식 |
+|------|---------|---------|
+| 일반 | 15.4% | 15% (원천징수) |
+| ISA | 비과세 (한도 내) | 비과세 (한도 내) |
+| 연금저축 | 0% (적립 중) | 0% (적립 중) |
+
+---
+
+## 기술 스택
+
+| 영역 | 기술 |
+|------|------|
+| 프론트엔드 | React 18 + TypeScript + Vite |
+| 스타일 | Tailwind CSS v3 + PostCSS |
+| 차트 | Recharts |
+| 라우팅 | React Router v6 |
+| 백엔드 | Vercel Serverless Functions (Node.js) |
+| 데이터 저장 | localStorage (`dividend-app:holdings:v1`) |
+| 외부 데이터 | Yahoo Finance (미국 주식·환율), KRX (국내 배당 캘린더) |
 
 ---
 
@@ -100,11 +82,16 @@ vercel --prod
 
 | 소스 | 용도 | 비고 |
 |------|------|------|
-| Yahoo Finance (`query2.finance.yahoo.com`) | 미국 주식 시세·배당 정보, USD/KRW 환율 | 공개 API |
-| KRX 정보데이터시스템 (`data.krx.co.kr`) | 국내 주식 배당 캘린더 | 비공식 JSON 엔드포인트, 장애 시 빈 배열 반환 |
+| Yahoo Finance `query1.finance.yahoo.com` | 미국 주식 시세·배당 이력·환율 | `range=5y` (CAGR 계산용), `range=2y` (캘린더용) |
+| KRX 정보데이터시스템 `data.krx.co.kr` | 국내 주식 배당 캘린더 | 비공식 JSON, 장애 시 빈 배열 반환 |
+
+---
 
 ## 아키텍처 메모
 
-- **데이터 저장**: localStorage만 사용 (`dividend-app:holdings:v1`). 서버 DB 없음.
-- **API 캐싱**: Vercel CDN `Cache-Control: s-maxage=86400, stale-while-revalidate=43200` (KV/Redis 불필요).
-- **세금 계산**: ISA · 연금저축 · 일반계좌 × KR · US 6-cell 매트릭스. `src/domain/tax.ts` 참조.
+- **시장 감지**: Yahoo Finance 응답의 `currency === 'KRW'` 또는 ticker suffix `.KS`/`.KQ` → `market: 'KR'`
+- **저장소 마이그레이션**: `getHoldings()` 호출 시 `.KS`/`.KQ` ticker의 `market` 자동 보정
+- **API 캐싱**: Vercel CDN `s-maxage=86400, stale-while-revalidate=43200` (KV/Redis 불필요)
+- **세금 계산**: `src/domain/tax.ts` 참조
+- **배당 계산**: `src/domain/dividendCalc.ts` — frequency 감지, 연간 예상, CAGR
+- **시나리오 프로젝션**: `src/domain/projection.ts` — 월별 루프, 계좌별 세후 계산
