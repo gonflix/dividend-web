@@ -84,7 +84,6 @@
 | 소스 | 용도 | 비고 |
 |------|------|------|
 | Yahoo Finance `query1.finance.yahoo.com` | 미국 주식 시세·배당 이력·환율 | `range=5y` (CAGR 계산용), `range=2y` (캘린더용) |
-| KRX 정보데이터시스템 `data.krx.co.kr` | 국내 주식 배당 캘린더 | 비공식 JSON, 장애 시 빈 배열 반환 |
 
 ---
 
