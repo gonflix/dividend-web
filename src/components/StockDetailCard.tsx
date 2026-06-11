@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import type { StockQuote } from '../api/client.js'
 import { fetchFxRate } from '../api/client.js'
 import { usdToKrw } from '../domain/fx.js'
 import { formatKrw, formatPercent } from '../lib/format.js'
+import { calcDividendEstimates } from '../domain/dividendCalc.js'
+import { getHoldings } from '../store/holdingsStore.js'
 import AddHoldingModal from './AddHoldingModal.js'
 
 interface Props {
@@ -12,7 +13,6 @@ interface Props {
 }
 
 export default function StockDetailCard({ quote, onAdded }: Props) {
-  const navigate = useNavigate()
   const [krwPrice, setKrwPrice] = useState<number | null>(null)
   const [fxError, setFxError] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
@@ -28,8 +28,15 @@ export default function StockDetailCard({ quote, onAdded }: Props) {
     }
   }, [quote.ticker])
 
+  const today = new Date().toISOString().slice(0, 10)
+  const { annualDps } = calcDividendEstimates(
+    quote.dividendEvents, today, today.slice(0, 4), today.slice(0, 7)
+  )
+  const computedYield = quote.price > 0 ? annualDps / quote.price : 0
+
+  const isAlreadyHeld = getHoldings().some(h => h.ticker === quote.ticker)
   const recentEvents = quote.dividendEvents.slice(-4).reverse()
-  const yieldColor = quote.annualDividendYield > 0 ? 'text-emerald-600' : 'text-slate-400'
+  const yieldColor = computedYield > 0 ? 'text-emerald-600' : 'text-slate-400'
 
   return (
     <>
@@ -64,7 +71,7 @@ export default function StockDetailCard({ quote, onAdded }: Props) {
           <div className="px-5 py-3">
             <p className="text-xs text-slate-400 mb-0.5">연간 배당수익률</p>
             <p className={`text-lg font-bold ${yieldColor}`}>
-              {formatPercent(quote.annualDividendYield)}
+              {formatPercent(computedYield)}
             </p>
           </div>
           <div className="px-5 py-3">
@@ -84,7 +91,7 @@ export default function StockDetailCard({ quote, onAdded }: Props) {
                   className="flex items-center justify-between text-sm bg-slate-50 rounded-lg px-3 py-2"
                 >
                   <div className="flex items-center gap-3 text-slate-500">
-                    <span>락일 <span className="text-slate-700 font-medium">{ev.exDate}</span></span>
+                    <span>배당락일 <span className="text-slate-700 font-medium">{ev.exDate}</span></span>
                     {ev.paymentDate && (
                       <span>지급 <span className="text-slate-700 font-medium">{ev.paymentDate}</span></span>
                     )}
@@ -100,18 +107,13 @@ export default function StockDetailCard({ quote, onAdded }: Props) {
         )}
 
         {/* Actions */}
-        <div className="flex gap-3 px-5 py-4">
+        <div className="px-5 py-4">
           <button
             onClick={() => setModalOpen(true)}
-            className="flex-1 py-2 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-sm transition-colors"
+            disabled={isAlreadyHeld}
+            className="w-full py-2 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-lg shadow-sm transition-colors"
           >
-            보유종목에 추가
-          </button>
-          <button
-            onClick={() => navigate(`/scenario?ticker=${encodeURIComponent(quote.ticker)}`)}
-            className="flex-1 py-2 bg-white hover:bg-slate-50 active:bg-slate-100 text-slate-700 text-sm font-semibold rounded-lg border border-slate-200 transition-colors"
-          >
-            시나리오 열기
+            {isAlreadyHeld ? '이미 보유 중인 종목' : '보유종목에 추가'}
           </button>
         </div>
       </div>
