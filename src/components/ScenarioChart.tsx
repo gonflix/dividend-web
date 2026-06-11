@@ -19,9 +19,34 @@ interface Props {
   years: number
   fxRate: number | null
   priceData: Map<string, StockQuote | null>
+  showAfterTax: boolean
 }
 
-export default function ScenarioChart({ projections, years, fxRate, priceData }: Props) {
+interface TooltipPayloadItem {
+  dataKey: string
+  value: number
+  fill: string
+}
+
+function CustomTooltip({ active, payload, label }: { active?: boolean; payload?: TooltipPayloadItem[]; label?: string }) {
+  if (!active || !payload?.length) return null
+  const total = payload.reduce((sum, p) => sum + (Number(p.value) || 0), 0)
+  return (
+    <div style={{ background: '#fff', border: '1px solid #e2e8f0', padding: '8px 12px', borderRadius: 6, fontSize: '0.85em' }}>
+      <div style={{ fontWeight: 600, marginBottom: 4 }}>{label}</div>
+      {payload.map(p => (
+        <div key={p.dataKey} style={{ color: p.fill }}>
+          {p.dataKey}: {formatKrw(p.value)}
+        </div>
+      ))}
+      <div style={{ borderTop: '1px solid #e2e8f0', marginTop: 4, paddingTop: 4, fontWeight: 600 }}>
+        합계: {formatKrw(total)}
+      </div>
+    </div>
+  )
+}
+
+export default function ScenarioChart({ projections, years, fxRate, priceData, showAfterTax }: Props) {
   const tickers = [...projections.keys()]
 
   const data = Array.from({ length: years }, (_, i) => {
@@ -31,9 +56,11 @@ export default function ScenarioChart({ projections, years, fxRate, priceData }:
       const curr = series[i]
       const prev = series[i - 1]
       if (!curr) { entry[ticker] = 0; continue }
-      const annualNet = curr.cumulativeNetDividend - (prev?.cumulativeNetDividend ?? 0)
+      const annualValue = showAfterTax
+        ? curr.cumulativeNetDividend - (prev?.cumulativeNetDividend ?? 0)
+        : curr.cumulativeGrossDividend - (prev?.cumulativeGrossDividend ?? 0)
       const currency = priceData.get(ticker)?.currency ?? 'KRW'
-      entry[ticker] = Math.round(currency === 'USD' && fxRate ? annualNet * fxRate : annualNet)
+      entry[ticker] = Math.round(currency === 'USD' && fxRate ? annualValue * fxRate : annualValue)
     }
     return entry
   })
@@ -42,14 +69,14 @@ export default function ScenarioChart({ projections, years, fxRate, priceData }:
 
   return (
     <div style={{ marginBottom: 32 }}>
-      <h2>연간 배당수익 (세후, KRW)</h2>
+      <h2>연간 배당수익 ({showAfterTax ? '세후' : '세전'}, KRW)</h2>
       <div style={{ width: '100%', height: 300 }}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} margin={{ top: 8, right: 16, bottom: 8, left: 16 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="year" />
             <YAxis tickFormatter={(v: number) => `${(v / 10_000).toFixed(0)}만`} />
-            <Tooltip formatter={(v: unknown) => formatKrw(Number(v))} />
+            <Tooltip content={<CustomTooltip />} />
             <Legend />
             {tickers.map((ticker, i) => (
               <Bar key={ticker} dataKey={ticker} stackId="a" fill={COLORS[i % COLORS.length]} />

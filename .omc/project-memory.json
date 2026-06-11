@@ -191,6 +191,12 @@
       "type": "file"
     },
     {
+      "path": "src/routes/ScenarioPage.tsx",
+      "accessCount": 8,
+      "lastAccessed": 1781170739272,
+      "type": "file"
+    },
+    {
       "path": "src/routes/HoldingsPage.tsx",
       "accessCount": 7,
       "lastAccessed": 1781168490140,
@@ -200,6 +206,12 @@
       "path": "src/lib/format.ts",
       "accessCount": 6,
       "lastAccessed": 1781168489922,
+      "type": "file"
+    },
+    {
+      "path": "api/_lib/yahoo.ts",
+      "accessCount": 6,
+      "lastAccessed": 1781169790946,
       "type": "file"
     },
     {
@@ -218,12 +230,6 @@
       "path": "src/components/ProjectionChart.tsx",
       "accessCount": 5,
       "lastAccessed": 1781168255305,
-      "type": "file"
-    },
-    {
-      "path": "src/routes/ScenarioPage.tsx",
-      "accessCount": 5,
-      "lastAccessed": 1781168729771,
       "type": "file"
     },
     {
@@ -254,12 +260,6 @@
       "path": "src/domain/fx.ts",
       "accessCount": 4,
       "lastAccessed": 1781161083723,
-      "type": "file"
-    },
-    {
-      "path": "api/_lib/yahoo.ts",
-      "accessCount": 4,
-      "lastAccessed": 1781164097703,
       "type": "file"
     },
     {
@@ -359,6 +359,18 @@
       "type": "file"
     },
     {
+      "path": "src/components/ScenarioChart.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1781170697029,
+      "type": "file"
+    },
+    {
+      "path": "src/components/ScenarioResultsTable.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1781170718317,
+      "type": "file"
+    },
+    {
       "path": "tests/format.test.ts",
       "accessCount": 1,
       "lastAccessed": 1781088537742,
@@ -428,18 +440,6 @@
       "path": "api/fx/usdkrw.ts",
       "accessCount": 1,
       "lastAccessed": 1781088849736,
-      "type": "file"
-    },
-    {
-      "path": "src/components/ScenarioChart.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1781168666469,
-      "type": "file"
-    },
-    {
-      "path": "src/components/ScenarioResultsTable.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1781168683531,
       "type": "file"
     }
   ],

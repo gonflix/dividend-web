@@ -42,6 +42,7 @@ export default function ScenarioPage() {
   const [fxRate, setFxRate] = useState<number | null>(null)
   const [loading, setLoading] = useState(false)
   const [years, setYears] = useState(10)
+  const [showAfterTax, setShowAfterTax] = useState(false)
   const [settings, setSettings] = useState<Record<string, TickerSettings>>({})
 
   const loadData = useCallback(async () => {
@@ -150,6 +151,17 @@ export default function ScenarioPage() {
           />
           <span>년</span>
         </label>
+        <button
+          onClick={() => setShowAfterTax(v => !v)}
+          style={{
+            padding: '4px 12px', fontSize: '0.85em', cursor: 'pointer',
+            background: showAfterTax ? '#10b981' : '#f1f5f9',
+            color: showAfterTax ? '#fff' : '#475569',
+            border: '1px solid #e2e8f0', borderRadius: 6,
+          }}
+        >
+          {showAfterTax ? '세후 금액 보기 ON' : '세후 금액 보기 OFF'}
+        </button>
         {loading && <span style={{ color: '#888', fontSize: '0.9em' }}>시세 로딩 중…</span>}
       </div>
 
@@ -222,6 +234,7 @@ export default function ScenarioPage() {
         years={years}
         fxRate={fxRate}
         priceData={priceData}
+        showAfterTax={showAfterTax}
       />
 
       <ScenarioResultsTable
@@ -230,6 +243,7 @@ export default function ScenarioPage() {
         years={years}
         priceData={priceData}
         fxRate={fxRate}
+        showAfterTax={showAfterTax}
       />
     </div>
   )
