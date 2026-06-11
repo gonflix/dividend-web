@@ -197,6 +197,12 @@
       "type": "file"
     },
     {
+      "path": "src/components/StockDetailCard.tsx",
+      "accessCount": 11,
+      "lastAccessed": 1781189656601,
+      "type": "file"
+    },
+    {
       "path": "src/routes/HoldingsPage.tsx",
       "accessCount": 10,
       "lastAccessed": 1781188266575,
@@ -212,12 +218,6 @@
       "path": "prd.json",
       "accessCount": 9,
       "lastAccessed": 1781156719063,
-      "type": "file"
-    },
-    {
-      "path": "src/components/StockDetailCard.tsx",
-      "accessCount": 9,
-      "lastAccessed": 1781157138918,
       "type": "file"
     },
     {

@@ -28,35 +28,94 @@ export default function StockDetailCard({ quote, onAdded }: Props) {
     }
   }, [quote.ticker])
 
+  const recentEvents = quote.dividendEvents.slice(-4).reverse()
+  const yieldColor = quote.annualDividendYield > 0 ? 'text-emerald-600' : 'text-slate-400'
+
   return (
     <>
-      <div style={{ border: '1px solid #ccc', padding: 16, borderRadius: 8, maxWidth: 480 }}>
-        <h2>{quote.name} ({quote.ticker})</h2>
-        <p>
-          <strong>현재가:</strong> {quote.price.toLocaleString('ko-KR')} {quote.currency}
-          {quote.currency === 'USD' && krwPrice !== null && <> &nbsp;/ {formatKrw(krwPrice)} (KRW 환산)</>}
-          {fxError && <span style={{ color: 'red', fontSize: '0.85em' }}> (환율 조회 실패)</span>}
-        </p>
-        <p><strong>연간 배당수익률:</strong> {formatPercent(quote.annualDividendYield)}</p>
-        {quote.dividendEvents.length > 0 && (
-          <div>
-            <strong>배당 일정:</strong>
-            <ul>
-              {quote.dividendEvents.slice(0, 4).map((ev) => (
-                <li key={ev.exDate + ev.ticker}>
-                  배당락일: {ev.exDate} &nbsp;|&nbsp; 지급일: {ev.paymentDate} &nbsp;|&nbsp; DPS: {ev.dps} {ev.currency}
-                </li>
+      <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden max-w-lg">
+        {/* Header */}
+        <div className="bg-slate-900 px-5 py-4">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-white text-xl font-extrabold tracking-wide">{quote.ticker}</span>
+                <span className="text-xs px-2 py-0.5 rounded-full bg-slate-700 text-slate-300 font-medium">
+                  {quote.market}
+                </span>
+              </div>
+              <p className="text-slate-400 text-sm">{quote.name}</p>
+            </div>
+            <div className="text-right flex-shrink-0">
+              <div className="text-white font-bold text-lg">
+                {quote.price.toLocaleString('ko-KR')}
+                <span className="text-slate-400 text-sm font-normal ml-1">{quote.currency}</span>
+              </div>
+              {quote.currency === 'USD' && krwPrice !== null && (
+                <div className="text-slate-400 text-xs mt-0.5">≈ {formatKrw(krwPrice)}</div>
+              )}
+              {fxError && <div className="text-red-400 text-xs mt-0.5">환율 조회 실패</div>}
+            </div>
+          </div>
+        </div>
+
+        {/* Stats */}
+        <div className="grid grid-cols-2 divide-x divide-slate-100 border-b border-slate-100">
+          <div className="px-5 py-3">
+            <p className="text-xs text-slate-400 mb-0.5">연간 배당수익률</p>
+            <p className={`text-lg font-bold ${yieldColor}`}>
+              {formatPercent(quote.annualDividendYield)}
+            </p>
+          </div>
+          <div className="px-5 py-3">
+            <p className="text-xs text-slate-400 mb-0.5">최근 배당 이력</p>
+            <p className="text-lg font-bold text-slate-700">{recentEvents.length}건</p>
+          </div>
+        </div>
+
+        {/* Dividend history */}
+        {recentEvents.length > 0 && (
+          <div className="px-5 py-3 border-b border-slate-100">
+            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">최근 배당 내역</p>
+            <div className="space-y-1.5">
+              {recentEvents.map((ev) => (
+                <div
+                  key={ev.exDate + ev.ticker}
+                  className="flex items-center justify-between text-sm bg-slate-50 rounded-lg px-3 py-2"
+                >
+                  <div className="flex items-center gap-3 text-slate-500">
+                    <span>락일 <span className="text-slate-700 font-medium">{ev.exDate}</span></span>
+                    {ev.paymentDate && (
+                      <span>지급 <span className="text-slate-700 font-medium">{ev.paymentDate}</span></span>
+                    )}
+                  </div>
+                  <span className="font-semibold text-slate-800">
+                    {ev.dps.toFixed(4)}
+                    <span className="text-slate-400 font-normal text-xs ml-1">{ev.currency}</span>
+                  </span>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         )}
-        <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
-          <button onClick={() => setModalOpen(true)}>보유종목에 추가</button>
-          <button onClick={() => navigate(`/scenario?ticker=${encodeURIComponent(quote.ticker)}`)}>
+
+        {/* Actions */}
+        <div className="flex gap-3 px-5 py-4">
+          <button
+            onClick={() => setModalOpen(true)}
+            className="flex-1 py-2 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-sm transition-colors"
+          >
+            보유종목에 추가
+          </button>
+          <button
+            onClick={() => navigate(`/scenario?ticker=${encodeURIComponent(quote.ticker)}`)}
+            className="flex-1 py-2 bg-white hover:bg-slate-50 active:bg-slate-100 text-slate-700 text-sm font-semibold rounded-lg border border-slate-200 transition-colors"
+          >
             시나리오 열기
           </button>
         </div>
       </div>
+
       {modalOpen && (
         <AddHoldingModal
           ticker={quote.ticker}
