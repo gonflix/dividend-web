@@ -44,7 +44,7 @@ export default function ScenarioResultsTable({ holdings, projections, years, pri
 
   return (
     <div style={{ overflowX: 'auto' }}>
-      <h2>시나리오 결과</h2>
+      <h2 className="text-xl font-extrabold text-slate-800 mb-3">시나리오 결과</h2>
       <table style={{ borderCollapse: 'collapse' }}>
         <thead>
           <tr>

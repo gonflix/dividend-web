@@ -69,13 +69,13 @@ export default function ScenarioChart({ projections, years, fxRate, priceData, s
 
   return (
     <div style={{ marginBottom: 32 }}>
-      <h2>연간 배당수익 ({showAfterTax ? '세후' : '세전'}, KRW)</h2>
+      <h2 className="text-xl font-extrabold text-slate-800 mb-3">연간 배당수익 ({showAfterTax ? '세후' : '세전'}, KRW)</h2>
       <div style={{ width: '100%', height: 300 }}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} margin={{ top: 8, right: 16, bottom: 8, left: 16 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="year" />
-            <YAxis tickFormatter={(v: number) => `${(v / 10_000).toFixed(0)}만`} />
+            <YAxis tickFormatter={(v: number) => `${(v / 10_000).toFixed(0).toString()}만`} />
             <Tooltip content={<CustomTooltip />} />
             <Legend />
             {tickers.map((ticker, i) => (

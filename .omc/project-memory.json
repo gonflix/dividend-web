@@ -227,6 +227,12 @@
       "type": "file"
     },
     {
+      "path": "src/components/ScenarioChart.tsx",
+      "accessCount": 8,
+      "lastAccessed": 1781188921380,
+      "type": "file"
+    },
+    {
       "path": "api/_lib/yahoo.ts",
       "accessCount": 7,
       "lastAccessed": 1781178440583,
@@ -239,15 +245,15 @@
       "type": "file"
     },
     {
-      "path": "src/lib/format.ts",
-      "accessCount": 6,
-      "lastAccessed": 1781168489922,
+      "path": "src/components/ScenarioResultsTable.tsx",
+      "accessCount": 7,
+      "lastAccessed": 1781188925870,
       "type": "file"
     },
     {
-      "path": "src/components/ScenarioChart.tsx",
+      "path": "src/lib/format.ts",
       "accessCount": 6,
-      "lastAccessed": 1781173655740,
+      "lastAccessed": 1781168489922,
       "type": "file"
     },
     {
@@ -272,12 +278,6 @@
       "path": "src/components/ProjectionChart.tsx",
       "accessCount": 5,
       "lastAccessed": 1781168255305,
-      "type": "file"
-    },
-    {
-      "path": "src/components/ScenarioResultsTable.tsx",
-      "accessCount": 5,
-      "lastAccessed": 1781173682972,
       "type": "file"
     },
     {
@@ -353,6 +353,12 @@
       "type": "file"
     },
     {
+      "path": "vercel.json",
+      "accessCount": 3,
+      "lastAccessed": 1781188680848,
+      "type": "file"
+    },
+    {
       "path": "src/components/HoldingForm.tsx",
       "accessCount": 2,
       "lastAccessed": 1781088795677,
@@ -416,12 +422,6 @@
       "path": "tests/format.test.ts",
       "accessCount": 1,
       "lastAccessed": 1781088537742,
-      "type": "file"
-    },
-    {
-      "path": "vercel.json",
-      "accessCount": 1,
-      "lastAccessed": 1781088814167,
       "type": "file"
     },
     {
