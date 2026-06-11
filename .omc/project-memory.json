@@ -329,6 +329,12 @@
       "type": "file"
     },
     {
+      "path": "vercel.json",
+      "accessCount": 4,
+      "lastAccessed": 1781189354228,
+      "type": "file"
+    },
+    {
       "path": "src/components/AddHoldingModal.tsx",
       "accessCount": 3,
       "lastAccessed": 1781157020715,
@@ -350,12 +356,6 @@
       "path": "api/calendar/[market].ts",
       "accessCount": 3,
       "lastAccessed": 1781178421535,
-      "type": "file"
-    },
-    {
-      "path": "vercel.json",
-      "accessCount": 3,
-      "lastAccessed": 1781188680848,
       "type": "file"
     },
     {
