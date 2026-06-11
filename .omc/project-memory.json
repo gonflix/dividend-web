@@ -186,8 +186,8 @@
     },
     {
       "path": "src/components/HoldingsTable.tsx",
-      "accessCount": 15,
-      "lastAccessed": 1781188249266,
+      "accessCount": 18,
+      "lastAccessed": 1781190617898,
       "type": "file"
     },
     {
@@ -221,6 +221,12 @@
       "type": "file"
     },
     {
+      "path": "api/_lib/yahoo.ts",
+      "accessCount": 9,
+      "lastAccessed": 1781190426887,
+      "type": "file"
+    },
+    {
       "path": "src/App.tsx",
       "accessCount": 8,
       "lastAccessed": 1781174582620,
@@ -233,12 +239,6 @@
       "type": "file"
     },
     {
-      "path": "api/_lib/yahoo.ts",
-      "accessCount": 7,
-      "lastAccessed": 1781178440583,
-      "type": "file"
-    },
-    {
       "path": "src/api/client.ts",
       "accessCount": 7,
       "lastAccessed": 1781178483081,
@@ -248,6 +248,12 @@
       "path": "src/components/ScenarioResultsTable.tsx",
       "accessCount": 7,
       "lastAccessed": 1781188925870,
+      "type": "file"
+    },
+    {
+      "path": "src/components/AddHoldingModal.tsx",
+      "accessCount": 7,
+      "lastAccessed": 1781190590383,
       "type": "file"
     },
     {
@@ -332,12 +338,6 @@
       "path": "vercel.json",
       "accessCount": 4,
       "lastAccessed": 1781189354228,
-      "type": "file"
-    },
-    {
-      "path": "src/components/AddHoldingModal.tsx",
-      "accessCount": 3,
-      "lastAccessed": 1781157020715,
       "type": "file"
     },
     {

@@ -42,12 +42,14 @@ export function normalizeChart(ticker: string, raw: YahooChartResponse): StockQu
   if (!result) throw new Error(`No chart result for ${ticker}`)
   const meta = result.meta
   const dividendEvents = extractDividends(ticker, raw)
+  const currency = meta.currency ?? 'USD'
+  const isKR = currency === 'KRW' || ticker.endsWith('.KS') || ticker.endsWith('.KQ')
   return {
     ticker,
-    market: 'US',
+    market: isKR ? 'KR' : 'US',
     name: meta.longName ?? meta.shortName ?? ticker,
     price: meta.regularMarketPrice ?? 0,
-    currency: meta.currency ?? 'USD',
+    currency,
     annualDividendYield: meta.trailingAnnualDividendYield ?? 0,
     dividendEvents,
     asOf: new Date((meta.regularMarketTime ?? 0) * 1000).toISOString().slice(0, 10),

@@ -11,7 +11,6 @@ interface Props {
 
 export default function AddHoldingModal({ ticker, market, onClose, onAdded }: Props) {
   const [quantity, setQuantity] = useState('')
-  const [costBasis, setCostBasis] = useState('')
   const [accountType, setAccountType] = useState<AccountType>('GENERAL')
   const [isaType, setIsaType] = useState<IsaType>('GENERAL_TYPE')
   const [error, setError] = useState<string | null>(null)
@@ -20,14 +19,12 @@ export default function AddHoldingModal({ ticker, market, onClose, onAdded }: Pr
     e.preventDefault()
     setError(null)
     const qty = parseFloat(quantity)
-    const cost = parseFloat(costBasis)
     if (!isFinite(qty) || qty <= 0) { setError('수량은 양수여야 합니다'); return }
-    if (!isFinite(cost) || cost <= 0) { setError('평균단가는 양수여야 합니다'); return }
     addHolding({
       ticker,
       market,
       quantity: qty,
-      costBasis: cost,
+      costBasis: 0,
       accountType,
       ...(accountType === 'ISA' ? { isaType } : {}),
     })
@@ -54,18 +51,6 @@ export default function AddHoldingModal({ ticker, market, onClose, onAdded }: Pr
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
               placeholder="10"
-              min="0"
-              step="any"
-              style={{ display: 'block', width: '100%', marginTop: 4 }}
-            />
-          </label>
-          <label>
-            평균단가 (KRW)
-            <input
-              type="number"
-              value={costBasis}
-              onChange={(e) => setCostBasis(e.target.value)}
-              placeholder="50000"
               min="0"
               step="any"
               style={{ display: 'block', width: '100%', marginTop: 4 }}

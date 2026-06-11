@@ -36,8 +36,8 @@ function toDisplay(
 
 export default function HoldingsTable({ positions, onRefresh, priceData, fxRate, currency = 'KRW' }: Props) {
   const [editingId, setEditingId] = useState<string | null>(null)
-  const [editForm, setEditForm] = useState<{ quantity: number; costBasis: number; accountType: AccountType }>({
-    quantity: 0, costBasis: 0, accountType: 'GENERAL',
+  const [editForm, setEditForm] = useState<{ quantity: number; accountType: AccountType }>({
+    quantity: 0, accountType: 'GENERAL',
   })
 
   if (positions.length === 0) {
@@ -52,7 +52,7 @@ export default function HoldingsTable({ positions, onRefresh, priceData, fxRate,
 
   function startEdit(p: StoredPosition) {
     setEditingId(p.id)
-    setEditForm({ quantity: p.quantity, costBasis: p.costBasis, accountType: p.accountType })
+    setEditForm({ quantity: p.quantity, accountType: p.accountType })
   }
 
   function cancelEdit() {
@@ -104,17 +104,6 @@ export default function HoldingsTable({ positions, onRefresh, priceData, fxRate,
                             value={editForm.quantity}
                             onChange={e => setEditForm(f => ({ ...f, quantity: parseInt(e.target.value) || 0 }))}
                             className="w-28 px-2 py-1.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                          />
-                        </div>
-                        <div className="flex flex-col gap-1">
-                          <label className="text-xs font-medium text-slate-500">평균단가</label>
-                          <input
-                            type="number"
-                            min={0}
-                            step={0.01}
-                            value={editForm.costBasis}
-                            onChange={e => setEditForm(f => ({ ...f, costBasis: parseFloat(e.target.value) || 0 }))}
-                            className="w-32 px-2 py-1.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
                           />
                         </div>
                         <div className="flex flex-col gap-1">
