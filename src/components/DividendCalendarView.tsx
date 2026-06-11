@@ -10,6 +10,54 @@ const TICKER_COLORS = [
 ]
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토']
 
+function addMonths(date: Date, n: number): Date {
+  const d = new Date(date)
+  d.setMonth(d.getMonth() + n)
+  return d
+}
+
+function projectFutureEvents(tickerEvents: DividendEvent[], today: string, monthsAhead = 13): DividendEvent[] {
+  if (tickerEvents.length < 2) return []
+
+  const eff = (ev: DividendEvent) => ev.paymentDate ?? ev.exDate
+
+  const cutoff = new Date(today)
+  cutoff.setMonth(cutoff.getMonth() - 15)
+  const cutoffStr = cutoff.toISOString().slice(0, 10)
+  const recent = tickerEvents.filter(ev => eff(ev) >= cutoffStr)
+  const uniqueMonths = new Set(recent.map(ev => eff(ev).slice(0, 7)))
+  const intervalMonths = uniqueMonths.size >= 8 ? 1 : 3
+
+  const sorted = [...tickerEvents].sort((a, b) => b.exDate.localeCompare(a.exDate))
+  const last = sorted[0]
+
+  const payOffsetMs = last.paymentDate
+    ? new Date(last.paymentDate).getTime() - new Date(last.exDate).getTime()
+    : null
+
+  const todayDate = new Date(today)
+  const limit = addMonths(todayDate, monthsAhead)
+  const projected: DividendEvent[] = []
+  let nextEx = new Date(last.exDate)
+
+  for (let i = 0; i < 60; i++) {
+    nextEx = addMonths(nextEx, intervalMonths)
+    const nextExStr = nextEx.toISOString().slice(0, 10)
+    if (nextExStr <= today) continue
+    if (nextEx > limit) break
+    projected.push({
+      ticker: last.ticker,
+      exDate: nextExStr,
+      paymentDate: payOffsetMs != null
+        ? new Date(nextEx.getTime() + payOffsetMs).toISOString().slice(0, 10)
+        : null,
+      dps: last.dps,
+      currency: last.currency,
+    })
+  }
+  return projected
+}
+
 function dividendTaxRate(accountType: AccountType, currency: string): number {
   if (accountType === 'ISA' || accountType === 'PENSION') return 0
   return currency === 'USD' ? 0.15 : 0.154
@@ -31,6 +79,7 @@ interface CellEvent {
   quantity: number
   currency: string
   accountType: AccountType
+  isProjected: boolean
 }
 
 interface TableRow extends CellEvent {
@@ -117,6 +166,25 @@ export default function DividendCalendarView() {
 
   const monthStr = `${year}-${String(month + 1).padStart(2, '0')}`
 
+  // Merge historical events with projected future events per ticker
+  const allEvents = useMemo(() => {
+    const byTicker = new Map<string, DividendEvent[]>()
+    events.forEach(ev => {
+      if (!byTicker.has(ev.ticker)) byTicker.set(ev.ticker, [])
+      byTicker.get(ev.ticker)!.push(ev)
+    })
+    const projected: (DividendEvent & { isProjected: boolean })[] = []
+    byTicker.forEach(tickerEvs => {
+      projectFutureEvents(tickerEvs, todayStr).forEach(ev =>
+        projected.push({ ...ev, isProjected: true })
+      )
+    })
+    return [
+      ...events.map(ev => ({ ...ev, isProjected: false })),
+      ...projected,
+    ]
+  }, [events, todayStr])
+
   const dayEventsMap = useMemo(() => {
     const map: Record<string, CellEvent[]> = {}
     const push = (date: string, ev: CellEvent) => {
@@ -125,7 +193,7 @@ export default function DividendCalendarView() {
         map[date].push(ev)
       }
     }
-    events.forEach(ev => {
+    allEvents.forEach(ev => {
       const h = holdingMap.get(ev.ticker)
       if (!h) return
       const base: Omit<CellEvent, 'type'> = {
@@ -136,12 +204,13 @@ export default function DividendCalendarView() {
         quantity: h.quantity,
         currency: ev.currency,
         accountType: h.accountType,
+        isProjected: ev.isProjected,
       }
       push(ev.exDate, { ...base, type: 'ex' })
       push(ev.paymentDate ?? ev.exDate, { ...base, type: 'pay' })
     })
     return map
-  }, [events, holdingMap, colorMap, stockNames])
+  }, [allEvents, holdingMap, colorMap, stockNames])
 
   const calendarDays = useMemo(() => {
     const firstDow = new Date(year, month, 1).getDay()
@@ -154,7 +223,7 @@ export default function DividendCalendarView() {
 
   const tableRows = useMemo((): TableRow[] => {
     const rows: TableRow[] = []
-    events.forEach(ev => {
+    allEvents.forEach(ev => {
       const h = holdingMap.get(ev.ticker)
       if (!h) return
       const base = {
@@ -165,26 +234,14 @@ export default function DividendCalendarView() {
         quantity: h.quantity,
         currency: ev.currency,
         accountType: h.accountType,
+        isProjected: ev.isProjected,
       }
       const payDate = ev.paymentDate ?? ev.exDate
       if (ev.exDate.startsWith(monthStr)) rows.push({ ...base, type: 'ex', date: ev.exDate })
       if (payDate.startsWith(monthStr)) rows.push({ ...base, type: 'pay', date: payDate })
     })
     return rows.sort((a, b) => a.date.localeCompare(b.date))
-  }, [events, holdingMap, colorMap, stockNames, monthStr])
-
-  const tableTotal = useMemo(
-    () => tableRows.reduce((acc, row) => {
-      const a = calcAmounts(row, fxRate)
-      return {
-        grossKrw: acc.grossKrw + a.grossKrw,
-        netKrw: acc.netKrw + a.netKrw,
-        grossUsd: acc.grossUsd + a.grossUsd,
-        netUsd: acc.netUsd + a.netUsd,
-      }
-    }, { grossKrw: 0, netKrw: 0, grossUsd: 0, netUsd: 0 }),
-    [tableRows, fxRate],
-  )
+  }, [allEvents, holdingMap, colorMap, stockNames, monthStr])
 
   function prevMonth() {
     setPopupDate(null)
@@ -337,11 +394,12 @@ export default function DividendCalendarView() {
                   {cellEvs.map((ev, i) => (
                     <span
                       key={i}
-                      title={`${ev.ticker} ${ev.type === 'ex' ? '배당락일' : '지급일'}`}
+                      title={`${ev.ticker} ${ev.type === 'ex' ? '배당락일' : '지급일'}${ev.isProjected ? ' (추정)' : ''}`}
                       className="inline-block w-2 h-2 rounded-full flex-shrink-0"
                       style={{
                         background: ev.type === 'ex' ? ev.color : 'transparent',
                         border: `2px solid ${ev.color}`,
+                        opacity: ev.isProjected ? 0.45 : 1,
                       }}
                     />
                   ))}
@@ -396,6 +454,11 @@ export default function DividendCalendarView() {
                         }`}>
                           {ev.type === 'ex' ? '배당락일' : '지급일'}
                         </span>
+                        {ev.isProjected && (
+                          <span className="flex-shrink-0 text-xs px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-400 font-medium">
+                            추정
+                          </span>
+                        )}
                       </div>
                       <div className="text-xs text-slate-400 mb-2">
                         DPS {ev.currency === 'USD' ? '$' : '₩'}{ev.dps.toFixed(4)} × {ev.quantity.toLocaleString()}주
@@ -450,13 +513,20 @@ export default function DividendCalendarView() {
                         </div>
                       </td>
                       <td className="px-4 py-3">
-                        <span className={`inline-block text-xs px-2 py-0.5 rounded-full font-medium ${
-                          row.type === 'ex'
-                            ? 'bg-orange-100 text-orange-600'
-                            : 'bg-emerald-100 text-emerald-600'
-                        }`}>
-                          {row.type === 'ex' ? '배당락일' : '지급일'}
-                        </span>
+                        <div className="flex items-center gap-1.5">
+                          <span className={`inline-block text-xs px-2 py-0.5 rounded-full font-medium ${
+                            row.type === 'ex'
+                              ? 'bg-orange-100 text-orange-600'
+                              : 'bg-emerald-100 text-emerald-600'
+                          }`}>
+                            {row.type === 'ex' ? '배당락일' : '지급일'}
+                          </span>
+                          {row.isProjected && (
+                            <span className="text-xs px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-400 font-medium">
+                              추정
+                            </span>
+                          )}
+                        </div>
                       </td>
                       <td className="px-4 py-3 text-slate-500">{row.date}</td>
                       <td className="px-4 py-3 text-right font-semibold text-slate-800">
@@ -466,17 +536,6 @@ export default function DividendCalendarView() {
                   )
                 })}
               </tbody>
-              <tfoot>
-                <tr className="border-t-2 border-slate-200 bg-slate-50">
-                  <td colSpan={3} className="px-4 py-3 font-semibold text-slate-700">합계</td>
-                  <td className="px-4 py-3 text-right font-bold text-blue-600 text-base">
-                    {showUsd
-                      ? fmtUSD(showAfterTax ? tableTotal.netUsd : tableTotal.grossUsd)
-                      : fmtKRW(showAfterTax ? tableTotal.netKrw : tableTotal.grossKrw)
-                    }
-                  </td>
-                </tr>
-              </tfoot>
             </table>
           </div>
         </div>

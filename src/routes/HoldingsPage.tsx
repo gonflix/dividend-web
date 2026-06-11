@@ -47,19 +47,19 @@ export default function HoldingsPage() {
   }
 
   return (
-    <div>
-      <h1>보유종목</h1>
+    <div className="space-y-6">
+      <h1 className="text-2xl font-extrabold text-slate-800">보유종목</h1>
 
-      <section style={{ marginBottom: 24 }}>
+      <section>
         <StockSearch onResult={setSearchQuote} />
         {searchQuote && (
-          <div style={{ marginTop: 16 }}>
+          <div className="mt-4">
             <StockDetailCard quote={searchQuote} onAdded={handleAdded} />
           </div>
         )}
       </section>
 
-      <hr />
+      <div className="border-t border-slate-200" />
 
       <PortfolioDashboard
         positions={positions}
@@ -70,10 +70,10 @@ export default function HoldingsPage() {
         onCurrencyToggle={() => setCurrency((c) => (c === 'KRW' ? 'USD' : 'KRW'))}
       />
 
-      <hr />
+      <div className="border-t border-slate-200" />
 
-      <section style={{ marginTop: 16 }}>
-        <h2>보유 종목 목록</h2>
+      <section>
+        <h2 className="text-xl font-extrabold text-slate-800 mb-4">보유 종목 목록</h2>
         <HoldingsTable
           positions={positions}
           onRefresh={loadData}

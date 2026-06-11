@@ -71,9 +71,12 @@ export default function PortfolioDashboard({ positions, priceData, fxRate, loadi
 
   return (
     <div style={{ padding: '16px 0' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-        <h2 style={{ margin: 0 }}>포트폴리오</h2>
-        <button onClick={onCurrencyToggle} style={{ fontSize: '0.85em', padding: '4px 10px' }}>
+      <div className="flex items-center gap-3 mb-4">
+        <h2 className="text-xl font-extrabold text-slate-800 m-0">포트폴리오</h2>
+        <button
+          onClick={onCurrencyToggle}
+          className="px-4 py-1.5 text-sm font-semibold bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 rounded-lg border border-slate-200 transition-colors shadow-sm"
+        >
           {currency === 'KRW' ? 'KRW → USD' : 'USD → KRW'}
         </button>
       </div>

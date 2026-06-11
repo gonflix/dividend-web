@@ -179,15 +179,33 @@
   },
   "hotPaths": [
     {
-      "path": "src/components/PortfolioDashboard.tsx",
-      "accessCount": 13,
-      "lastAccessed": 1781161224314,
+      "path": "src/components/DividendCalendarView.tsx",
+      "accessCount": 23,
+      "lastAccessed": 1781187582665,
       "type": "file"
     },
     {
       "path": "src/components/HoldingsTable.tsx",
-      "accessCount": 13,
-      "lastAccessed": 1781161241987,
+      "accessCount": 15,
+      "lastAccessed": 1781188249266,
+      "type": "file"
+    },
+    {
+      "path": "src/components/PortfolioDashboard.tsx",
+      "accessCount": 15,
+      "lastAccessed": 1781188291472,
+      "type": "file"
+    },
+    {
+      "path": "src/routes/HoldingsPage.tsx",
+      "accessCount": 10,
+      "lastAccessed": 1781188266575,
+      "type": "file"
+    },
+    {
+      "path": "src/routes/ScenarioPage.tsx",
+      "accessCount": 10,
+      "lastAccessed": 1781188323089,
       "type": "file"
     },
     {
@@ -203,27 +221,9 @@
       "type": "file"
     },
     {
-      "path": "src/routes/ScenarioPage.tsx",
-      "accessCount": 8,
-      "lastAccessed": 1781170739272,
-      "type": "file"
-    },
-    {
       "path": "src/App.tsx",
       "accessCount": 8,
       "lastAccessed": 1781174582620,
-      "type": "file"
-    },
-    {
-      "path": "src/routes/HoldingsPage.tsx",
-      "accessCount": 8,
-      "lastAccessed": 1781174589543,
-      "type": "file"
-    },
-    {
-      "path": "src/components/DividendCalendarView.tsx",
-      "accessCount": 8,
-      "lastAccessed": 1781178499665,
       "type": "file"
     },
     {
@@ -293,6 +293,12 @@
       "type": "file"
     },
     {
+      "path": "src/components/StockSearch.tsx",
+      "accessCount": 5,
+      "lastAccessed": 1781188279340,
+      "type": "file"
+    },
+    {
       "path": "src/routes/ExplorerPage.tsx",
       "accessCount": 4,
       "lastAccessed": 1781156332838,
@@ -320,12 +326,6 @@
       "path": "src/domain/types.ts",
       "accessCount": 4,
       "lastAccessed": 1781174584716,
-      "type": "file"
-    },
-    {
-      "path": "src/components/StockSearch.tsx",
-      "accessCount": 3,
-      "lastAccessed": 1781156332453,
       "type": "file"
     },
     {

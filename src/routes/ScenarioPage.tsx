@@ -127,20 +127,20 @@ export default function ScenarioPage() {
 
   if (holdings.length === 0 && !loading) {
     return (
-      <div>
-        <h1>시나리오 시뮬레이터</h1>
-        <p style={{ color: '#888' }}>보유 종목이 없습니다. 먼저 보유종목 탭에서 종목을 추가하세요.</p>
+      <div className="space-y-3">
+        <h1 className="text-2xl font-extrabold text-slate-800">시나리오 시뮬레이터</h1>
+        <p className="text-slate-400">보유 종목이 없습니다. 먼저 보유종목 탭에서 종목을 추가하세요.</p>
       </div>
     )
   }
 
   return (
     <div>
-      <h1>시나리오 시뮬레이터</h1>
+      <h1 className="text-2xl font-extrabold text-slate-800 mb-5">시나리오 시뮬레이터</h1>
 
-      <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginBottom: 20 }}>
-        <label style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          <span style={{ fontWeight: 600 }}>투자기간</span>
+      <div className="flex flex-wrap gap-3 items-center mb-5">
+        <label className="flex items-center gap-2">
+          <span className="font-semibold text-slate-700 text-sm">투자기간</span>
           <input
             type="number"
             value={years}
@@ -149,20 +149,19 @@ export default function ScenarioPage() {
             style={{ width: 60 }}
             onChange={e => setYears(Math.max(1, parseInt(e.target.value) || 1))}
           />
-          <span>년</span>
+          <span className="text-sm text-slate-600">년</span>
         </label>
         <button
           onClick={() => setShowAfterTax(v => !v)}
-          style={{
-            padding: '4px 12px', fontSize: '0.85em', cursor: 'pointer',
-            background: showAfterTax ? '#10b981' : '#f1f5f9',
-            color: showAfterTax ? '#fff' : '#475569',
-            border: '1px solid #e2e8f0', borderRadius: 6,
-          }}
+          className={`px-4 py-1.5 text-sm font-semibold rounded-lg border transition-colors shadow-sm ${
+            showAfterTax
+              ? 'bg-emerald-500 hover:bg-emerald-600 text-white border-emerald-500'
+              : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200'
+          }`}
         >
           {showAfterTax ? '세후 금액 보기 ON' : '세후 금액 보기 OFF'}
         </button>
-        {loading && <span style={{ color: '#888', fontSize: '0.9em' }}>시세 로딩 중…</span>}
+        {loading && <span className="text-slate-400 text-sm">시세 로딩 중…</span>}
       </div>
 
       <div style={{ overflowX: 'auto', marginBottom: 32 }}>
