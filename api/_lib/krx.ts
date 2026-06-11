@@ -14,10 +14,13 @@ export async function fetchKrxDividendDates(ticker: string): Promise<DividendEve
     const end = formatKrxDate(today)
     const start = formatKrxDate(new Date(today.getFullYear() - 1, today.getMonth(), today.getDate()))
 
+    // KRX uses 6-digit codes without exchange suffix (.KS/.KQ)
+    const krxCode = ticker.replace(/\.(KS|KQ)$/i, '')
+
     const body = new URLSearchParams({
       bld: 'dbms/MDC/STAT/standard/MDCSTAT04601',
       locale: 'ko_KR',
-      isuSrtCd: ticker,
+      isuSrtCd: krxCode,
       strtDd: start,
       endDd: end,
       share: '1',

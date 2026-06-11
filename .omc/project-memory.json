@@ -180,8 +180,8 @@
   "hotPaths": [
     {
       "path": "src/components/DividendCalendarView.tsx",
-      "accessCount": 23,
-      "lastAccessed": 1781187582665,
+      "accessCount": 24,
+      "lastAccessed": 1781192242832,
       "type": "file"
     },
     {
@@ -347,15 +347,21 @@
       "type": "file"
     },
     {
+      "path": "api/calendar/[market].ts",
+      "accessCount": 4,
+      "lastAccessed": 1781192241726,
+      "type": "file"
+    },
+    {
       "path": "src/components/ScenarioForm.tsx",
       "accessCount": 3,
       "lastAccessed": 1781168252568,
       "type": "file"
     },
     {
-      "path": "api/calendar/[market].ts",
+      "path": "api/_lib/krx.ts",
       "accessCount": 3,
-      "lastAccessed": 1781178421535,
+      "lastAccessed": 1781192265215,
       "type": "file"
     },
     {
@@ -428,12 +434,6 @@
       "path": "tests/api.normalization.test.ts",
       "accessCount": 1,
       "lastAccessed": 1781088822582,
-      "type": "file"
-    },
-    {
-      "path": "api/_lib/krx.ts",
-      "accessCount": 1,
-      "lastAccessed": 1781088824055,
       "type": "file"
     },
     {
