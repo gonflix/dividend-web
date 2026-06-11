@@ -251,6 +251,12 @@
       "type": "file"
     },
     {
+      "path": "api/_lib/yahoo.ts",
+      "accessCount": 4,
+      "lastAccessed": 1781164097703,
+      "type": "file"
+    },
+    {
       "path": "src/routes/ScenarioPage.tsx",
       "accessCount": 3,
       "lastAccessed": 1781088799549,
@@ -287,9 +293,9 @@
       "type": "file"
     },
     {
-      "path": "api/_lib/yahoo.ts",
+      "path": "src/domain/dividendCalc.ts",
       "accessCount": 3,
-      "lastAccessed": 1781162978199,
+      "lastAccessed": 1781164114443,
       "type": "file"
     },
     {
@@ -422,12 +428,6 @@
       "path": "api/fx/usdkrw.ts",
       "accessCount": 1,
       "lastAccessed": 1781088849736,
-      "type": "file"
-    },
-    {
-      "path": "src/domain/dividendCalc.ts",
-      "accessCount": 1,
-      "lastAccessed": 1781161196683,
       "type": "file"
     }
   ],
