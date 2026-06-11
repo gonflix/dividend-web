@@ -215,6 +215,12 @@
       "type": "file"
     },
     {
+      "path": "src/components/ScenarioChart.tsx",
+      "accessCount": 6,
+      "lastAccessed": 1781173655740,
+      "type": "file"
+    },
+    {
       "path": "progress.txt",
       "accessCount": 5,
       "lastAccessed": 1781156738730,
@@ -230,6 +236,12 @@
       "path": "src/components/ProjectionChart.tsx",
       "accessCount": 5,
       "lastAccessed": 1781168255305,
+      "type": "file"
+    },
+    {
+      "path": "src/components/ScenarioResultsTable.tsx",
+      "accessCount": 5,
+      "lastAccessed": 1781173682972,
       "type": "file"
     },
     {
@@ -284,12 +296,6 @@
       "path": "src/domain/projection.ts",
       "accessCount": 4,
       "lastAccessed": 1781168654129,
-      "type": "file"
-    },
-    {
-      "path": "src/components/ScenarioChart.tsx",
-      "accessCount": 4,
-      "lastAccessed": 1781172602582,
       "type": "file"
     },
     {
@@ -362,12 +368,6 @@
       "path": "src/domain/tax.ts",
       "accessCount": 2,
       "lastAccessed": 1781168253945,
-      "type": "file"
-    },
-    {
-      "path": "src/components/ScenarioResultsTable.tsx",
-      "accessCount": 2,
-      "lastAccessed": 1781170718317,
       "type": "file"
     },
     {

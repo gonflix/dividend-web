@@ -54,7 +54,7 @@ export default function ScenarioResultsTable({ holdings, projections, years, pri
               누적 보유수량
             </th>
             <th colSpan={divColSpan} style={{ ...TH, textAlign: 'center', background: '#fef3c7' }}>
-              배당수익 (KRW)
+              연간 배당수익 (KRW)
             </th>
           </tr>
           <tr>
@@ -64,9 +64,9 @@ export default function ScenarioResultsTable({ holdings, projections, years, pri
             {yearCols.flatMap(y =>
               showAfterTax
                 ? [
-                    <th key={`g${y}`} style={{ ...TH, background: '#fef9c3' }}>{y}년 세전</th>,
-                    <th key={`n${y}`} style={{ ...TH, background: '#d1fae5' }}>{y}년 세후</th>,
-                  ]
+                  <th key={`g${y}`} style={{ ...TH, background: '#fef9c3' }}>{y}년 세전</th>,
+                  <th key={`n${y}`} style={{ ...TH, background: '#d1fae5' }}>{y}년 세후</th>,
+                ]
                 : [<th key={`g${y}`} style={{ ...TH, background: '#fef3c7' }}>{y}년</th>]
             )}
           </tr>
@@ -86,13 +86,16 @@ export default function ScenarioResultsTable({ holdings, projections, years, pri
                 })}
                 {yearCols.flatMap(y => {
                   const d = series?.[y - 1]
-                  const gross = d ? formatKrw(toKrw(d.cumulativeGrossDividend, currency, fxRate)) : '—'
-                  const net = d ? formatKrw(toKrw(d.cumulativeNetDividend, currency, fxRate)) : '—'
+                  const prev = series?.[y - 2]
+                  const grossVal = d ? toKrw(d.cumulativeGrossDividend - (prev?.cumulativeGrossDividend ?? 0), currency, fxRate) : null
+                  const netVal = d ? toKrw(d.cumulativeNetDividend - (prev?.cumulativeNetDividend ?? 0), currency, fxRate) : null
+                  const gross = grossVal !== null ? formatKrw(grossVal) : '—'
+                  const net = netVal !== null ? formatKrw(netVal) : '—'
                   return showAfterTax
                     ? [
-                        <td key={`g${y}`} style={TD}>{gross}</td>,
-                        <td key={`n${y}`} style={{ ...TD, background: '#f0fdf4' }}>{net}</td>,
-                      ]
+                      <td key={`g${y}`} style={TD}>{gross}</td>,
+                      <td key={`n${y}`} style={{ ...TD, background: '#f0fdf4' }}>{net}</td>,
+                    ]
                     : [<td key={`g${y}`} style={TD}>{gross}</td>]
                 })}
               </tr>
