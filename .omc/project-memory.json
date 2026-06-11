@@ -287,6 +287,12 @@
       "type": "file"
     },
     {
+      "path": "src/components/ScenarioChart.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1781172602582,
+      "type": "file"
+    },
+    {
       "path": "src/routes/CalendarPage.tsx",
       "accessCount": 3,
       "lastAccessed": 1781088837452,
@@ -356,12 +362,6 @@
       "path": "src/domain/tax.ts",
       "accessCount": 2,
       "lastAccessed": 1781168253945,
-      "type": "file"
-    },
-    {
-      "path": "src/components/ScenarioChart.tsx",
-      "accessCount": 2,
-      "lastAccessed": 1781170697029,
       "type": "file"
     },
     {

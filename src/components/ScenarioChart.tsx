@@ -54,13 +54,12 @@ export default function ScenarioChart({ projections, years, fxRate, priceData, s
     for (const ticker of tickers) {
       const series = projections.get(ticker)!
       const curr = series[i]
-      const prev = series[i - 1]
       if (!curr) { entry[ticker] = 0; continue }
-      const annualValue = showAfterTax
-        ? curr.cumulativeNetDividend - (prev?.cumulativeNetDividend ?? 0)
-        : curr.cumulativeGrossDividend - (prev?.cumulativeGrossDividend ?? 0)
+      const cumulValue = showAfterTax
+        ? curr.cumulativeNetDividend
+        : curr.cumulativeGrossDividend
       const currency = priceData.get(ticker)?.currency ?? 'KRW'
-      entry[ticker] = Math.round(currency === 'USD' && fxRate ? annualValue * fxRate : annualValue)
+      entry[ticker] = Math.round(currency === 'USD' && fxRate ? cumulValue * fxRate : cumulValue)
     }
     return entry
   })
@@ -69,7 +68,7 @@ export default function ScenarioChart({ projections, years, fxRate, priceData, s
 
   return (
     <div style={{ marginBottom: 32 }}>
-      <h2>연간 배당수익 ({showAfterTax ? '세후' : '세전'}, KRW)</h2>
+      <h2>누적 배당수익 ({showAfterTax ? '세후' : '세전'}, KRW)</h2>
       <div style={{ width: '100%', height: 300 }}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} margin={{ top: 8, right: 16, bottom: 8, left: 16 }}>
