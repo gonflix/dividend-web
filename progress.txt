@@ -2,6 +2,38 @@
 Started: 2026-06-10
 Plan: /home/jinkyeong/.omc/plans/dividend-web-plan.md
 
+## Iteration 2 — Holdings Unified Page (v2)
+### Status: COMPLETE — all 6 stories pass, awaiting architect review
+Spec: /home/jinkyeong/dividend-web/.omc/specs/deep-interview-holdings-unified.md
+
+### Stories
+- US-H001: Navigation merge (3-tab nav, /explorer + / → /holdings redirect) — DONE ✓
+- US-H002: AddHoldingModal (수량/평균단가/계좌종류 + conditional ISA sub-type) — DONE ✓
+- US-H003: StockDetailCard refactor (modal trigger replaces direct addHolding) — DONE ✓
+- US-H004: PortfolioDashboard (Recharts PieChart + 4 KPI cards + KRW/USD toggle) — DONE ✓
+- US-H005: HoldingsTable enhanced (평가액/연배당금 columns, "—" on fetch failure) — DONE ✓
+- US-H006: HoldingsPage rewrite (unified layout, parallel price fetch on load) — DONE ✓
+
+### Verification
+- npm test: 87 tests / 6 suites — all pass (no regressions)
+- npm run typecheck: 0 errors
+- npm run build: success (chunk size warning is pre-existing Recharts issue)
+
+### Files created
+- src/components/AddHoldingModal.tsx — modal form with validation + ISA sub-type
+- src/components/PortfolioDashboard.tsx — pie chart + KPI cards + currency toggle
+
+### Files modified
+- src/App.tsx — removed 탐색 tab, added Navigate redirects for / and /explorer
+- src/routes/HoldingsPage.tsx — full rewrite: search section + dashboard + list
+- src/components/StockDetailCard.tsx — modal trigger, onAdded prop
+- src/components/HoldingsTable.tsx — priceData/fxRate/currency props, new columns
+
+### Patterns learned
+- Recharts Tooltip formatter param is `ValueType | undefined` — guard with typeof check
+- Promise.allSettled is correct for parallel N fetches where partial failure is acceptable
+- Currency conversion: KR prices are native KRW; US prices are native USD — convert at display layer
+
 ## Iteration 1
 ### Status: COMPLETE — all stories pass, awaiting architect review
 

@@ -47,8 +47,8 @@
     "runtime": null
   },
   "build": {
-    "buildCommand": "npm test 2>&1 && npm run build 2>&1",
-    "testCommand": "npm test 2>&1 && npm run build 2>&1",
+    "buildCommand": "npm run build 2>&1",
+    "testCommand": "npm run typecheck 2>&1 && npm test 2>&1",
     "lintCommand": null,
     "devCommand": "npm run dev",
     "scripts": {
@@ -167,9 +167,51 @@
   },
   "hotPaths": [
     {
+      "path": "src/components/PortfolioDashboard.tsx",
+      "accessCount": 10,
+      "lastAccessed": 1781157116588,
+      "type": "file"
+    },
+    {
+      "path": "src/components/HoldingsTable.tsx",
+      "accessCount": 10,
+      "lastAccessed": 1781157133048,
+      "type": "file"
+    },
+    {
       "path": "prd.json",
+      "accessCount": 9,
+      "lastAccessed": 1781156719063,
+      "type": "file"
+    },
+    {
+      "path": "src/components/StockDetailCard.tsx",
+      "accessCount": 9,
+      "lastAccessed": 1781157138918,
+      "type": "file"
+    },
+    {
+      "path": "src/routes/HoldingsPage.tsx",
       "accessCount": 6,
-      "lastAccessed": 1781088786046,
+      "lastAccessed": 1781157022247,
+      "type": "file"
+    },
+    {
+      "path": "progress.txt",
+      "accessCount": 5,
+      "lastAccessed": 1781156738730,
+      "type": "file"
+    },
+    {
+      "path": "src/App.tsx",
+      "accessCount": 5,
+      "lastAccessed": 1781157020148,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/format.ts",
+      "accessCount": 5,
+      "lastAccessed": 1781157101295,
       "type": "file"
     },
     {
@@ -185,33 +227,15 @@
       "type": "file"
     },
     {
-      "path": "src/components/StockDetailCard.tsx",
+      "path": "src/routes/ExplorerPage.tsx",
       "accessCount": 4,
-      "lastAccessed": 1781089029135,
-      "type": "file"
-    },
-    {
-      "path": "progress.txt",
-      "accessCount": 3,
-      "lastAccessed": 1781088767168,
+      "lastAccessed": 1781156332838,
       "type": "file"
     },
     {
       "path": "src/routes/ScenarioPage.tsx",
       "accessCount": 3,
       "lastAccessed": 1781088799549,
-      "type": "file"
-    },
-    {
-      "path": "src/routes/HoldingsPage.tsx",
-      "accessCount": 3,
-      "lastAccessed": 1781088800855,
-      "type": "file"
-    },
-    {
-      "path": "src/routes/ExplorerPage.tsx",
-      "accessCount": 3,
-      "lastAccessed": 1781088836844,
       "type": "file"
     },
     {
@@ -227,9 +251,39 @@
       "type": "file"
     },
     {
+      "path": "src/components/StockSearch.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1781156332453,
+      "type": "file"
+    },
+    {
+      "path": "src/api/client.ts",
+      "accessCount": 3,
+      "lastAccessed": 1781156779329,
+      "type": "file"
+    },
+    {
       "path": "src/store/holdingsStore.ts",
-      "accessCount": 2,
-      "lastAccessed": 1781088790810,
+      "accessCount": 3,
+      "lastAccessed": 1781156779797,
+      "type": "file"
+    },
+    {
+      "path": "api/_lib/dto.ts",
+      "accessCount": 3,
+      "lastAccessed": 1781156794996,
+      "type": "file"
+    },
+    {
+      "path": "src/domain/fx.ts",
+      "accessCount": 3,
+      "lastAccessed": 1781156979921,
+      "type": "file"
+    },
+    {
+      "path": "src/components/AddHoldingModal.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1781157020715,
       "type": "file"
     },
     {
@@ -269,39 +323,21 @@
       "type": "file"
     },
     {
-      "path": "src/api/client.ts",
-      "accessCount": 2,
-      "lastAccessed": 1781088829481,
-      "type": "file"
-    },
-    {
-      "path": "src/lib/format.ts",
-      "accessCount": 2,
-      "lastAccessed": 1781088838196,
-      "type": "file"
-    },
-    {
       "path": "README.md",
       "accessCount": 2,
       "lastAccessed": 1781088838231,
       "type": "file"
     },
     {
-      "path": "src/components/StockSearch.tsx",
-      "accessCount": 2,
-      "lastAccessed": 1781088844873,
-      "type": "file"
-    },
-    {
-      "path": "src/components/HoldingsTable.tsx",
-      "accessCount": 2,
-      "lastAccessed": 1781088845118,
-      "type": "file"
-    },
-    {
       "path": "src/domain/projection.ts",
       "accessCount": 2,
       "lastAccessed": 1781089002617,
+      "type": "file"
+    },
+    {
+      "path": "src/domain/types.ts",
+      "accessCount": 2,
+      "lastAccessed": 1781156778871,
       "type": "file"
     },
     {
@@ -314,24 +350,6 @@
       "path": "src/domain/tax.ts",
       "accessCount": 1,
       "lastAccessed": 1781088790329,
-      "type": "file"
-    },
-    {
-      "path": "src/domain/types.ts",
-      "accessCount": 1,
-      "lastAccessed": 1781088790990,
-      "type": "file"
-    },
-    {
-      "path": "src/domain/fx.ts",
-      "accessCount": 1,
-      "lastAccessed": 1781088796420,
-      "type": "file"
-    },
-    {
-      "path": "src/App.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1781088810013,
       "type": "file"
     },
     {
@@ -356,12 +374,6 @@
       "path": "tests/api.normalization.test.ts",
       "accessCount": 1,
       "lastAccessed": 1781088822582,
-      "type": "file"
-    },
-    {
-      "path": "api/_lib/dto.ts",
-      "accessCount": 1,
-      "lastAccessed": 1781088823541,
       "type": "file"
     },
     {

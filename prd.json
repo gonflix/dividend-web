@@ -1,132 +1,97 @@
 {
-  "project": "배당 투자 플래닝 웹서비스",
-  "description": "Single-user browser-based dividend investment planning SPA for Korean investors. React 18 + TypeScript + Vite + Recharts on Vercel. localStorage for holdings. Serverless proxy for KRX + Yahoo Finance data.",
-  "plan": "/home/jinkyeong/.omc/plans/dividend-web-plan.md",
-  "spec": "/home/jinkyeong/.omc/specs/deep-interview-dividend-web.md",
+  "project": "배당 투자 플래닝 웹서비스 — Holdings Unified Page (v2)",
+  "description": "Merge Explorer and Holdings tabs into one unified 보유종목 page: search at top, portfolio dashboard (pie chart + 4 KPIs + currency toggle), enhanced holdings list (평가액/연배당금 columns), and Add-to-Holdings modal from search results.",
+  "spec": "/home/jinkyeong/dividend-web/.omc/specs/deep-interview-holdings-unified.md",
   "root": "/home/jinkyeong/dividend-web",
   "stories": [
     {
-      "id": "US-001",
-      "title": "Project scaffold: Vite + React + TypeScript + router shell",
+      "id": "US-H001",
+      "title": "Navigation merge: remove 탐색 tab, add redirects for / and /explorer",
       "phase": 0,
       "passes": true,
       "acceptanceCriteria": [
-        "package.json exists with react@18, react-dom, react-router-dom, recharts, typescript, vite as dependencies",
-        "vite.config.ts exists and references react plugin",
-        "tsconfig.json exists with strict: true and paths configured",
-        "index.html exists and references src/main.tsx",
-        "src/main.tsx exists and renders App inside BrowserRouter",
-        "src/App.tsx exists with 4 routes: /explorer, /calendar, /holdings, /scenario — each renders a non-empty placeholder page",
-        "src/routes/ExplorerPage.tsx, CalendarPage.tsx, HoldingsPage.tsx, ScenarioPage.tsx all exist",
-        "vercel.json exists with rewrites routing /api/* to Vercel function handlers and build outputDirectory: dist",
-        "npm run build succeeds (exit 0)",
-        "npm run typecheck (tsc --noEmit) exits 0"
+        "src/App.tsx has exactly 3 NavLink elements: /holdings (보유종목), /calendar (캘린더), /scenario (시나리오). The 탐색 NavLink is gone.",
+        "src/App.tsx has a <Navigate> (or equivalent redirect) for both path='/' and path='/explorer' pointing to /holdings",
+        "src/App.tsx no longer imports or mounts ExplorerPage as a direct route (the /explorer Route is replaced by a redirect)",
+        "npm run build succeeds and npm run typecheck exits 0 after this change"
       ]
     },
     {
-      "id": "US-002",
-      "title": "Stateless proxy API: DTOs, Yahoo, KRX, cache headers",
+      "id": "US-H002",
+      "title": "AddHoldingModal: modal form with 수량/평균단가/계좌종류 + conditional ISA sub-type",
       "phase": 1,
       "passes": true,
       "acceptanceCriteria": [
-        "api/_lib/dto.ts exports StockQuote, DividendEvent, and FxRate TypeScript interfaces",
-        "api/_lib/yahoo.ts exports fetchStockQuote(ticker) and fetchUsdKrw() returning StockQuote and FxRate respectively, using Yahoo Finance endpoints",
-        "api/_lib/krx.ts exports fetchKrxDividendDates(ticker) returning DividendEvent[] — calls POST data.krx.co.kr/comm/bldAttendant/getJsonData.cmd; on failure returns empty array (graceful degradation)",
-        "api/_lib/cache.ts exports setCacheHeaders(res) that sets Cache-Control: s-maxage=86400, stale-while-revalidate=43200",
-        "api/stock/[ticker].ts exists and returns StockQuote JSON with Cache-Control header on success",
-        "api/fx/usdkrw.ts exists and returns FxRate JSON with Cache-Control header",
-        "api/calendar/[market].ts exists, routes KR to krx.ts and US to yahoo.ts, returns DividendEvent[] with Cache-Control header",
-        "tests/api.normalization.test.ts exists and passes: tests StockQuote DTO shape from a Yahoo fixture, FxRate DTO shape, DividendEvent[] from a KRX success fixture, and a KRX-unavailable fixture returning empty array",
-        "grep -r 'prisma\\|mongoose\\|pg\\|mysql\\|sqlite\\|knex\\|typeorm\\|sequelize' api/ returns no matches (no persistence imports)",
-        "npm test -- api.normalization exits 0"
+        "src/components/AddHoldingModal.tsx exists and exports a default React component",
+        "The modal receives props: ticker (string, read-only display), market ('KR'|'US', read-only display), onClose (() => void), onAdded (() => void)",
+        "The modal renders 3 user-editable fields: 수량 (number input), 평균단가 (number input, KRW), 계좌종류 (select: ISA/연금저축/일반)",
+        "When 계좌종류 = ISA, a fourth select appears: ISA 종류 with options 일반형 and 서민형 mapping to GENERAL_TYPE and PREFERENCE_TYPE from IsaType",
+        "On submit: addHolding() is called with ticker, market, quantity, costBasis, accountType, and isaType (when ISA); onAdded() and onClose() are called",
+        "On cancel button or backdrop click: onClose() is called with no addHolding call",
+        "Validation: empty/zero 수량 or 평균단가 shows an inline error and does not submit",
+        "npm run typecheck exits 0 after this file is created"
       ]
     },
     {
-      "id": "US-003",
-      "title": "Pure domain core: tax (6-cell matrix), projection, fx",
+      "id": "US-H003",
+      "title": "StockDetailCard: replace hardcoded add with modal trigger",
+      "phase": 1,
+      "passes": true,
+      "acceptanceCriteria": [
+        "src/components/StockDetailCard.tsx no longer calls addHolding() directly or has the old handleAddToHoldings function",
+        "Clicking '보유종목에 추가' button sets local state that causes AddHoldingModal to render with ticker and market pre-filled from the quote prop",
+        "AddHoldingModal is imported and used in StockDetailCard",
+        "When the modal's onAdded fires, StockDetailCard resets the modal-open state (modal closes)",
+        "The '시나리오 열기' button still navigates to /scenario?ticker=...",
+        "npm run typecheck exits 0"
+      ]
+    },
+    {
+      "id": "US-H004",
+      "title": "PortfolioDashboard: pie chart + 4 KPI cards + KRW/USD toggle",
       "phase": 2,
       "passes": true,
       "acceptanceCriteria": [
-        "src/domain/types.ts exports Market ('KR'|'US'), AccountType ('ISA'|'PENSION'|'GENERAL'), ProjectionModel ('optimistic'|'base'|'pessimistic'), IsaType ('GENERAL_TYPE'|'PREFERENCE_TYPE'), and Position interface",
-        "src/domain/fx.ts exports usdToKrw(amountUsd: number, rate: number): number",
-        "src/domain/tax.ts exports dividendTax(input: DividendTaxInput): number with all 6 matrix cells: ISA-KR (0% below threshold / 9.9% above), ISA-US (15% withholding), PENSION-KR (deferred, age-tiered at withdrawal), PENSION-US (15% at source + deferred KR), GENERAL-KR (15.4%), GENERAL-US (15%)",
-        "src/domain/tax.ts exports ISA_TAX_FREE_LIMIT_GENERAL = 2_000_000 and ISA_TAX_FREE_LIMIT_PREFERENCE = 4_000_000 and ISA_OVER_LIMIT_RATE = 0.099 and US_WITHHOLDING_RATE = 0.15 and GENERAL_KR_RATE = 0.154",
-        "src/domain/projection.ts exports project({ monthlyDca, years, model, annualDividendYield, ... }): { series: number[], headlineTotal: number } where series.length === years * 12 (exclusive of t=0)",
-        "grep -r 'import.*react\\|import.*fetch\\|import.*axios\\|require.*react' src/domain/ returns no matches (pure, no React/network imports)",
-        "tests/tax.test.ts passes: ISA-KR below threshold = 0, above threshold = gross*0.099; ISA-US = gross*0.15 (US withholding); mixed KR+US dividends count toward isaProfitToDate for ISA threshold; PENSION accumulation tax = 0, withdrawal with ageAtWithdrawal=55 applies 5.5%, age=75 applies 4.4%, age=82 applies 3.3%; GENERAL-KR = gross*0.154; GENERAL-US = gross*0.15; PENSION-US = gross*0.85 accumulated then 연금소득세 at withdrawal",
-        "tests/projection.test.ts passes: optimistic >= base >= pessimistic headline invariant; series.length === years*12",
-        "tests/fx.test.ts passes: usdToKrw(1, 1300) === 1300",
-        "npm test -- tax projection fx exits 0"
+        "src/components/PortfolioDashboard.tsx exists and exports a default React component",
+        "Props: positions (StoredPosition[]), priceData (Map<string, StockQuote | null>), fxRate (number | null), loading (boolean), currency ('KRW' | 'USD'), onCurrencyToggle (() => void)",
+        "When loading=true, a loading indicator (spinner text or skeleton) is shown instead of the pie chart and KPIs",
+        "Pie chart: uses Recharts PieChart; one slice per ticker where priceData has a non-null quote; slice value = price × quantity converted to display currency",
+        "KPI card 총평가금액 = sum of (price × quantity) in display currency, only for tickers with non-null quotes",
+        "KPI card 연간예상배당금 = sum of (annualDividendYield × price × quantity) in display currency, only for tickers with non-null quotes",
+        "KPI card 이번달예상배당금 = sum of (dps × quantity) for DividendEvents where paymentDate starts with current YYYY-MM, in display currency; shows formatted zero when no events qualify",
+        "KPI card 가중평균배당율 = [Σ(annualDividendYield × marketValue_i) / Σ(marketValue_i)] × 100 as a percentage string; shows '—' when total market value is 0",
+        "A KRW/USD toggle button calls onCurrencyToggle; its label shows the current display currency",
+        "npm run typecheck exits 0"
       ]
     },
     {
-      "id": "US-004",
-      "title": "Holdings management: localStorage CRUD + UI",
+      "id": "US-H005",
+      "title": "HoldingsTable: add 평가액 and 연배당금 columns using priceData prop",
+      "phase": 2,
+      "passes": true,
+      "acceptanceCriteria": [
+        "src/components/HoldingsTable.tsx accepts new optional props: priceData (Map<string, StockQuote | null>), fxRate (number | null), currency ('KRW' | 'USD')",
+        "Table columns are now: 티커 / 시장 / 수량 / 평가액 / 연배당금 / 계좌 / 삭제",
+        "평가액 cell = price × quantity in display currency; shows '—' when priceData is undefined or the quote for that ticker is null",
+        "연배당금 cell = annualDividendYield × price × quantity in display currency; shows '—' on same condition",
+        "The empty-state message still renders when positions is empty",
+        "npm run typecheck exits 0"
+      ]
+    },
+    {
+      "id": "US-H006",
+      "title": "HoldingsPage rewrite: unified layout wiring search + dashboard + list",
       "phase": 3,
       "passes": true,
       "acceptanceCriteria": [
-        "src/store/holdingsStore.ts exports addHolding, updateHolding, deleteHolding, getHoldings using localStorage key 'dividend-app:holdings:v1' with a schemaVersion field",
-        "A Position stored via addHolding persists exactly {ticker, market, quantity, costBasis, accountType, schemaVersion} and getHoldings() returns it after a simulated page reload (localStorage clear+restore in test)",
-        "accountType validation: addHolding rejects any value not in ['ISA','PENSION','GENERAL'] (throws or returns error)",
-        "src/components/HoldingsTable.tsx renders a list of positions from the store",
-        "src/components/HoldingForm.tsx has inputs for ticker, market, quantity, cost basis, account type and a submit button; account type uses a select with exactly 3 options: ISA/연금저축/일반 mapping to ISA/PENSION/GENERAL",
-        "src/routes/HoldingsPage.tsx wires HoldingsTable and HoldingForm so adding a position via the form appends it to the table",
-        "tests/holdingsStore.test.ts passes: add/get/update/delete roundtrip, persistence across simulated reload, account type validation",
-        "npm test -- holdingsStore exits 0",
-        "npm run build succeeds after Holdings phase"
-      ]
-    },
-    {
-      "id": "US-005",
-      "title": "Explorer + Calendar UI: search, detail card, dividend calendar",
-      "phase": 4,
-      "passes": true,
-      "acceptanceCriteria": [
-        "src/api/client.ts exports fetchStock(ticker), fetchFxRate(), fetchCalendar(market) as typed async functions calling /api/* endpoints",
-        "src/lib/format.ts exports formatKrw(amount: number): string using Korean locale (₩ or 원 symbol, comma-separated) and formatPercent(rate: number): string",
-        "src/components/StockSearch.tsx renders a text input and on submit calls fetchStock; shows loading and error states",
-        "src/components/StockDetailCard.tsx renders: current price in native currency, KRW-converted price (using usdToKrw from fx.ts + fetchFxRate), annual dividend yield as %, dividend schedule (ex-div date, payment date, DPS); has 'Add to Holdings' button that calls addHolding and a 'Open Scenario' link that navigates to /scenario with ticker prefilled",
-        "src/components/DividendCalendarView.tsx reads Holdings from holdingsStore and renders upcoming ex-dividend and payment dates for held tickers only; shows empty state with prompt when Holdings is empty",
-        "src/routes/ExplorerPage.tsx wires StockSearch + StockDetailCard",
-        "src/routes/CalendarPage.tsx wires DividendCalendarView",
-        "KRW-converted price displayed = usdToKrw(nativePrice, fxRate) — unit test verifies this equality",
-        "npm run build succeeds after Explorer+Calendar phase",
-        "npm run typecheck exits 0"
-      ]
-    },
-    {
-      "id": "US-006",
-      "title": "Scenario Simulator: DCA projection + tax comparison + chart",
-      "phase": 5,
-      "passes": true,
-      "acceptanceCriteria": [
-        "src/components/ScenarioForm.tsx has inputs: stock/ETF ticker, monthly DCA amount (KRW), time horizon (years), account type (ISA/연금저축/일반), projection model (optimistic/base/pessimistic), ISA type (일반형/서민형, shown only when ISA selected), age at withdrawal (number, default 55, shown only when 연금저축 selected)",
-        "src/components/ProjectionChart.tsx renders a Recharts line/area chart with series.length === years*12 data points showing projected monthly dividend income",
-        "src/components/AccountComparisonTable.tsx renders 3 rows (ISA/연금저축/일반) with after-tax headline totals; 연금저축 row includes a note that the value undervalues 연금저축 by ignoring 세액공제 contribution credit; all 3 values differ for non-degenerate inputs",
-        "연금저축 after-tax headline in AccountComparisonTable is strictly less than the pre-tax accumulated value (withdrawal tax applied, not 0)",
-        "ISA headline for US stock input shows gross*(1-0.15) for amounts below the 비과세 threshold (15% US withholding applied even inside ISA)",
-        "'Open Scenario' link from StockDetailCard navigates to /scenario and prefills the ticker input",
-        "src/routes/ScenarioPage.tsx wires ScenarioForm + ProjectionChart + AccountComparisonTable",
-        "npm run build succeeds after Scenario phase",
-        "npm run typecheck exits 0",
-        "npm test exits 0 (all suites)"
-      ]
-    },
-    {
-      "id": "US-007",
-      "title": "Polish, error handling, README, scope guard verification",
-      "phase": 6,
-      "passes": true,
-      "acceptanceCriteria": [
-        "All 4 pages show a loading spinner or skeleton while API calls are in-flight",
-        "All 4 pages show a user-readable error message when an API call fails (not a blank page or unhandled error)",
-        "CalendarPage shows 'KR dividend dates unavailable' empty state when /api/calendar/KR returns an empty array (graceful degradation for KRX failure)",
-        "README.md exists at repo root with: local dev instructions (npm install + vercel dev), env var documentation, and Vercel deploy instructions",
-        "Route inventory check: grep -r 'auth\\|login\\|signup\\|register\\|news\\|briefing\\|screening\\|capital.gain\\|market.wide' src/routes/ returns no matches (scope guard AC-G1)",
-        "grep -r 'prisma\\|mongoose\\|pg\\|mysql\\|sqlite\\|knex\\|typeorm' api/ returns no matches (AC-B2 final check)",
-        "npm run build exits 0",
-        "npm test exits 0 — all suites: tax, projection, fx, holdingsStore, api.normalization",
-        "npm run typecheck exits 0"
+        "src/routes/HoldingsPage.tsx mounts: StockSearch + StockDetailCard (top), PortfolioDashboard (middle), HoldingsTable (bottom) in that order",
+        "HoldingForm is NOT imported or rendered anywhere in HoldingsPage",
+        "On mount: getHoldings() → fetchFxRate() + Promise.all(holdings.map(h => fetchStock(h.ticker))) fire in parallel; loading=true during fetch",
+        "priceData is Map<string, StockQuote | null>: resolved quotes stored by ticker, rejected promises stored as null",
+        "currency state ('KRW'|'USD') lives in HoldingsPage and is passed as prop to PortfolioDashboard and HoldingsTable",
+        "When StockDetailCard's onAdded fires, HoldingsPage re-runs the full data load",
+        "npm run build succeeds and npm run typecheck exits 0",
+        "npm test exits 0 — all 87 existing tests still pass"
       ]
     }
   ]
